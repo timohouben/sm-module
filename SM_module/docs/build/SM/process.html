@@ -1,0 +1,960 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.9.2" />
+<title>SM.process API documentation</title>
+<meta name="description" content="The file has been build for pre and post processing model results" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>SM.process</code></h1>
+</header>
+<section id="section-intro">
+<p>The file has been build for pre and post processing model results</p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+# ======================================================================
+# Created by : Mohit Anand
+# Created on : On Sat Jan 16 2021 at 00:20:40
+# ======================================================================
+# __author__ = Mohit Anand
+# __copyright__ = Copyright (c) 2021, Mohit Anand, Soil Moisture Project
+# __credits__ = [Mohit Anand,]
+# __license__ = MIT
+# __version__ = 0.0.1
+# __maintainer__ = Mohit Anand
+# __email__ = mohit.anand@ufz.de
+# __status__ = development
+# ======================================================================
+&#39;&#39;&#39; The file has been build for pre and post processing model results &#39;&#39;&#39;
+#
+
+from SM.io import read_data
+from SM.cfg import Project
+#from SM.training import SpatioTempModel
+import pandas as pd
+import numpy as np
+
+import geopandas as gpd
+
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+
+import matplotlib.pylab as plt
+
+import os
+
+def preprocess(data:pd.DataFrame) -&gt; pd.DataFrame:
+
+    data[&#34;aspect_cos&#34;] = np.cos(convert_rad(data[&#34;aspect&#34;]))
+    data[&#34;aspect_sin&#34;] = np.sin(convert_rad(data[&#34;aspect&#34;]))
+
+    #We prepare x and y as feature, they might not be used but just are prepared 
+    data.geometry
+    data[&#34;x&#34;] = data.geometry.x
+    data[&#34;y&#34;] = data.geometry.y
+
+    ## We select the features here
+    selected_feature_data = data[features_select]
+
+    return selected_feature_data
+
+
+def preprocess_spatiotempmodel(data:pd.DataFrame) -&gt; pd.DataFrame:
+    &#34;&#34;&#34;Preprocess data for models of class SpatioTempModel.&#34;&#34;&#34;
+    
+    data = (data.assign(x = data[&#34;UTMWGS84_E[m]&#34;],
+                        y = data[&#34;UTMWGS84_N[m]&#34;],
+                        z = data[&#34;Depth_m&#34;])
+                .drop(columns=[&#34;UTMWGS84_E[m]&#34;, &#34;UTMWGS84_N[m]&#34;, &#34;Depth_m&#34;,
+                                &#34;Region&#34;])
+                .dropna())
+    # subset to base columns (important for subsequent processing) and features
+    columns = [&#34;Date&#34;, &#34;Date_integer&#34;, &#34;Box&#34;, &#34;Sensor&#34;, &#34;x&#34;, &#34;y&#34;, &#34;z&#34;,
+              &#34;Soil_moisture&#34;] + Project.features_select
+    #reordered_columns = columns + (data.columns.drop(columns).tolist())
+    data = data[columns]
+    data = data.loc[:, ~data.columns.duplicated()]
+        
+    return data
+
+
+def convert_rad(d:float)-&gt;float:
+    r = d * np.pi / 180.
+    return r
+
+def create_daily_XY(daily_data):
+
+    X = daily_data.drop([&#34;Soil_moisture&#34;, &#34;Date&#34;], axis=1).values
+    y = daily_data.Soil_moisture.values
+    
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, shuffle=True, stratify=None)
+
+    scaler = StandardScaler().fit(X_train)
+
+    X_train_scaled = scaler.transform(X_train)
+
+    X_test_scaled = scaler.transform(X_test)
+
+    return X_train_scaled, X_test_scaled, y_train, y_test, scaler
+    
+def split_data(X, train_size, split_type, random_seed = 42):
+    &#34;&#34;&#34;
+    Wrapper to split data into a training set and a test set based on: 1) locations (boxes) or 2) randomly.
+    
+    Parameters
+    ---------
+    X : pandas.Dataframe
+        Data set to split: Measurements of soil moisture and all features.
+    train_size : float
+        Proportion of boxes (&#34;spatial&#34;) or data (&#34;random&#34;) that is used for the training set.
+    split_type : string
+        two options: either  &#34;spatial&#34; for splitting by location (boxes) or &#34;random&#34; for totaly random split in space and time.
+    random_seed : integer default: 42
+        Value of random seed for creating the random split, useful for creating different splits.
+        
+    Returns
+    -------
+    X_train: pandas.Dataframe
+        Dataset containing features for training.
+    X_test: pandas.Dataframe
+        Dataset containing features for testing.
+    y_train: pandas.Series
+        Soil moisture values of training set.
+    y_test: pandas.Series
+        Soil moisture values of test set.
+    &#34;&#34;&#34;
+
+    if split_type == &#34;spatial&#34;:
+        train_set, test_set = shuffle_split_data_spatially(X, train_size, random_seed)
+    
+    if split_type == &#34;random&#34;:
+        train_set, test_set = shuffle_split_data_randomly(X, train_size, random_seed)
+    
+    X_train = train_set.drop([&#34;Soil_moisture&#34;], axis=1)
+    y_train = train_set.Soil_moisture
+    X_test = test_set.drop([&#34;Soil_moisture&#34;], axis=1)
+    y_test = test_set.Soil_moisture
+    
+    return X_train, X_test, y_train, y_test
+    
+    
+def shuffle_split_data_spatially(X, train_size, random_seed):
+    &#34;&#34;&#34;
+    Split data into a training set and test set based on locations (boxes).
+    All rows with the same value for &#39;box&#39; will be either go into training or test set.
+       
+    Parameters
+    ---------
+    X : Pandas Dataframe
+        Dataset to split: Measurements of soil moisture and all features
+    train_size : float
+        Proportion of boxes used for the training set (not measurements!)
+    random_seed : integer
+        Value of random seed for creating the random split
+        
+    Returns
+    -------
+    train_set : Pandas Dataframe
+        Dataset containing the data for training   
+    test_set : Pandas Dataframe
+        Dataset containing the data for testing
+    &#34;&#34;&#34;
+    
+    np.random.seed(random_seed) # set random seed for reproducibility
+    
+    # split available boxes accordong to train_size
+    boxes = X.Box.unique()
+    arr_rand = np.random.rand(boxes.shape[0])
+    split_boxes = arr_rand &lt; np.percentile(arr_rand, train_size * 100)
+    train_boxes = boxes[split_boxes]
+    test_boxes = boxes[~split_boxes]
+    
+    # split entire data set    
+    train_set = X[X.Box.isin(train_boxes)]
+    test_set = X[X.Box.isin(test_boxes)]
+
+    print(&#34;Splitting spatially:\nTrain set:&#34;, len(train_set), &#34; measurements of&#34;, len(train_boxes), 
+          &#34; boxes \n Test set:&#34;, len(test_set), &#34; measurements of&#34;, len(test_boxes), &#34; boxes&#34;)
+    return train_set, test_set
+
+def shuffle_split_data_randomly(X, train_size, random_seed):
+    &#34;&#34;&#34;
+    Split data into a training set and test set randomly in space and time.
+       
+    Parameters
+    ---------
+    X : Pandas Dataframe
+        Dataset to split: Measurements of soil moisture and all features
+    train_size : float
+        Proportion of measurements used for the training set
+    random_seed : integer
+        Value of random seed for creating the random split
+        
+    Returns
+    -------
+    train_set : Pandas Dataframe
+        Dataset containing the data for training   
+    test_set : Pandas Dataframe
+        Dataset containing the data for testing
+    &#34;&#34;&#34;
+    
+    np.random.seed(random_seed) # set random seed for reproducibility
+
+    # split available measurements accordong to train_size
+    arr_rand = np.random.rand(X.shape[0])
+    split = arr_rand &lt; np.percentile(arr_rand, train_size * 100)
+    
+    train_set = X[split]
+    test_set = X[~split]
+
+    print(&#34;Splitting randomly: \nTrain set:&#34;, len(train_set), &#34; measurements \n&#34;, 
+          &#34;Test set:&#34;, len(test_set), &#34; measurements&#34;)
+    return train_set, test_set
+
+
+def scale_data(X_train, X_test):
+    &#34;&#34;&#34;Scale training and testing data with StandardScaler().
+    
+    Parameters
+    ----------
+    X_train : pandas.DataFrame
+        Training data.
+    X_test : pandas.DataFrame
+        Test data.
+    
+    Return
+    ------
+    Tuple of scaled data : pandas.DataFrame, scaler
+    &#34;&#34;&#34;
+    scaler = StandardScaler().fit(X_train)
+    return (scaler.transform(X_train), scaler.transform(X_test), scaler)
+
+def preprocess_raster(raster_data):
+
+    raster_data[&#34;aspect_cos&#34;] = np.cos(convert_rad(raster_data[&#34;aspect&#34;]))
+    raster_data[&#34;aspect_sin&#34;] = np.sin(convert_rad(raster_data[&#34;aspect&#34;]))
+
+    #We prepare x and y as feature, they might not be used but just are prepared 
+
+    raster_data[&#34;x&#34;] = raster_data.geometry.x
+    raster_data[&#34;y&#34;] = raster_data.geometry.y
+
+    ## Remove No values data
+    raster_data = raster_data[raster_data[&#39;mask&#39;]==False]
+
+
+
+    x = features_select
+
+
+    if &#39;Date&#39; in x : x.remove(&#39;Date&#39;)
+    if &#39;Soil_moisture&#39; in x : x.remove(&#39;Soil_moisture&#39;)
+    
+    x = [word if word != &#39;Depth_m&#39; else &#39;z&#39; for word in x]
+    
+    
+
+    raster_data = raster_data[x]
+        
+
+    return raster_data
+
+
+def preprocess_raster_spatiotempmodel(raster_data):
+    &#34;&#34;&#34;Preprocess raw raster data.
+    
+    Parameter
+    ---------
+    raster_data : pandas.DataFrame
+        Raw raster data including columns: &#34;coord_x&#34;, &#34;coord_y&#34;, &#34;z&#34;, &#34;mask&#34; and
+        features columns.
+    
+    Returns
+    -------
+    pandas.DataFrame
+    
+    &#34;&#34;&#34;
+    
+    ## Remove No values data
+    raster_data = raster_data[raster_data[&#39;mask&#39;]==False]
+    
+    raster_data[&#34;aspect_cos&#34;] = np.cos(convert_rad(raster_data[&#34;aspect&#34;]))
+    raster_data[&#34;aspect_sin&#34;] = np.sin(convert_rad(raster_data[&#34;aspect&#34;]))
+
+    raster_data = (raster_data.assign(
+                      aspect_cos = np.cos(convert_rad(raster_data[&#34;aspect&#34;])),
+                      aspect_sin = np.sin(convert_rad(raster_data[&#34;aspect&#34;])),
+                      x = raster_data[&#34;coord_x&#34;],
+                      y = raster_data[&#34;coord_y&#34;])
+                               .drop(columns=[&#34;coord_x&#34;, &#34;coord_y&#34;])
+                               .dropna())
+    # reorder
+    columns = [&#34;x&#34;, &#34;y&#34;, &#34;z&#34;, &#34;mask&#34;]
+    reordered_columns = columns + (raster_data.columns.drop(columns).tolist())
+    raster_data = raster_data[reordered_columns]
+    
+    return raster_data
+
+
+def raster_select_features(raster_data, date):
+    &#34;&#34;&#34;Subset raster data to feature columns and, in case, get temporal 
+    features from the training data.
+
+    Parameters
+    ----------
+    raster_data : pandas.DataFrame
+        Data of the raster with columns.
+    date : str
+        Date to predict the map for (&#34;yyyy-mm-dd&#34;).
+
+    Returns
+    -------
+    raster_data : pandas.DataFrame
+        Subsetted data of the raster.
+    &#34;&#34;&#34;
+
+    # select features
+    features = Project.features_select
+
+    # remove unused stuff
+    if &#39;Date&#39; in features : features.remove(&#39;Date&#39;)
+    if &#39;Soil_moisture&#39; in features : features.remove(&#39;Soil_moisture&#39;)
+    features = [word if word != &#39;Depth_m&#39; else &#39;z&#39; for word in features]
+
+    # get temporal features that are not stored in raster_data 
+    feats_in_raster = [x for x in features for y in raster_data.columns if x==y]
+    feats_not_in_raster = [x for x in features if x not in feats_in_raster]
+
+    # get feature values at specific date from traning_testing data
+    X_traintest = read_data()
+    X_traintest = preprocess_spatiotempmodel(X_traintest)
+    X_feats = (X_traintest.loc[X_traintest[&#34;Date&#34;]==date,feats_not_in_raster]
+                          .drop_duplicates())
+    if len(X_feats)==0: 
+        raise ValueError(&#39;The provided Data is not in the data.&#39;)
+
+    # add to raster
+    for i,value in enumerate(X_feats.values[0]):
+        raster_data[X_feats.columns[i]] = value
+
+    raster_data = raster_data[features]
+
+    return raster_data
+    
+
+def create_gdf_from_df(df, x=&#34;x&#34;, y=&#34;y&#34;):
+    &#34;&#34;&#34;Create a Geopandas.GeoDataFrame out of a pandas.DataFrame.
+    
+    Paramters
+    ---------
+    df : pandas.DataFrame
+        Has to have columns [&#34;x&#34;, &#34;y&#34;, ...].
+    x : str, Default: &#34;x&#34;
+        Name of the columns for x - coordinates.
+    y : str, Default: &#34;y&#34;
+        Name of the columns for y - coordinates.
+        
+    Returns
+    -------
+    gdf : geopands.GeoDataFrame
+    &#34;&#34;&#34;
+    gdf = gpd.GeoDataFrame(df, geometry=gpd.points_from_xy(df[x], df[y]),
+                              crs = Project.crs)
+    return gdf</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="SM.process.convert_rad"><code class="name flex">
+<span>def <span class="ident">convert_rad</span></span>(<span>d: float) ‑> float</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def convert_rad(d:float)-&gt;float:
+    r = d * np.pi / 180.
+    return r</code></pre>
+</details>
+</dd>
+<dt id="SM.process.create_daily_XY"><code class="name flex">
+<span>def <span class="ident">create_daily_XY</span></span>(<span>daily_data)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def create_daily_XY(daily_data):
+
+    X = daily_data.drop([&#34;Soil_moisture&#34;, &#34;Date&#34;], axis=1).values
+    y = daily_data.Soil_moisture.values
+    
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, shuffle=True, stratify=None)
+
+    scaler = StandardScaler().fit(X_train)
+
+    X_train_scaled = scaler.transform(X_train)
+
+    X_test_scaled = scaler.transform(X_test)
+
+    return X_train_scaled, X_test_scaled, y_train, y_test, scaler</code></pre>
+</details>
+</dd>
+<dt id="SM.process.create_gdf_from_df"><code class="name flex">
+<span>def <span class="ident">create_gdf_from_df</span></span>(<span>df, x='x', y='y')</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Create a Geopandas.GeoDataFrame out of a pandas.DataFrame.</p>
+<h2 id="paramters">Paramters</h2>
+<p>df : pandas.DataFrame
+Has to have columns ["x", "y", &hellip;].
+x : str, Default: "x"
+Name of the columns for x - coordinates.
+y : str, Default: "y"
+Name of the columns for y - coordinates.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><strong><code>gdf</code></strong> :&ensp;<code>geopands.GeoDataFrame</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def create_gdf_from_df(df, x=&#34;x&#34;, y=&#34;y&#34;):
+    &#34;&#34;&#34;Create a Geopandas.GeoDataFrame out of a pandas.DataFrame.
+    
+    Paramters
+    ---------
+    df : pandas.DataFrame
+        Has to have columns [&#34;x&#34;, &#34;y&#34;, ...].
+    x : str, Default: &#34;x&#34;
+        Name of the columns for x - coordinates.
+    y : str, Default: &#34;y&#34;
+        Name of the columns for y - coordinates.
+        
+    Returns
+    -------
+    gdf : geopands.GeoDataFrame
+    &#34;&#34;&#34;
+    gdf = gpd.GeoDataFrame(df, geometry=gpd.points_from_xy(df[x], df[y]),
+                              crs = Project.crs)
+    return gdf</code></pre>
+</details>
+</dd>
+<dt id="SM.process.preprocess"><code class="name flex">
+<span>def <span class="ident">preprocess</span></span>(<span>data: pandas.core.frame.DataFrame) ‑> pandas.core.frame.DataFrame</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def preprocess(data:pd.DataFrame) -&gt; pd.DataFrame:
+
+    data[&#34;aspect_cos&#34;] = np.cos(convert_rad(data[&#34;aspect&#34;]))
+    data[&#34;aspect_sin&#34;] = np.sin(convert_rad(data[&#34;aspect&#34;]))
+
+    #We prepare x and y as feature, they might not be used but just are prepared 
+    data.geometry
+    data[&#34;x&#34;] = data.geometry.x
+    data[&#34;y&#34;] = data.geometry.y
+
+    ## We select the features here
+    selected_feature_data = data[features_select]
+
+    return selected_feature_data</code></pre>
+</details>
+</dd>
+<dt id="SM.process.preprocess_raster"><code class="name flex">
+<span>def <span class="ident">preprocess_raster</span></span>(<span>raster_data)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def preprocess_raster(raster_data):
+
+    raster_data[&#34;aspect_cos&#34;] = np.cos(convert_rad(raster_data[&#34;aspect&#34;]))
+    raster_data[&#34;aspect_sin&#34;] = np.sin(convert_rad(raster_data[&#34;aspect&#34;]))
+
+    #We prepare x and y as feature, they might not be used but just are prepared 
+
+    raster_data[&#34;x&#34;] = raster_data.geometry.x
+    raster_data[&#34;y&#34;] = raster_data.geometry.y
+
+    ## Remove No values data
+    raster_data = raster_data[raster_data[&#39;mask&#39;]==False]
+
+
+
+    x = features_select
+
+
+    if &#39;Date&#39; in x : x.remove(&#39;Date&#39;)
+    if &#39;Soil_moisture&#39; in x : x.remove(&#39;Soil_moisture&#39;)
+    
+    x = [word if word != &#39;Depth_m&#39; else &#39;z&#39; for word in x]
+    
+    
+
+    raster_data = raster_data[x]
+        
+
+    return raster_data</code></pre>
+</details>
+</dd>
+<dt id="SM.process.preprocess_raster_spatiotempmodel"><code class="name flex">
+<span>def <span class="ident">preprocess_raster_spatiotempmodel</span></span>(<span>raster_data)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Preprocess raw raster data.</p>
+<h2 id="parameter">Parameter</h2>
+<p>raster_data : pandas.DataFrame
+Raw raster data including columns: "coord_x", "coord_y", "z", "mask" and
+features columns.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>pandas.DataFrame</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def preprocess_raster_spatiotempmodel(raster_data):
+    &#34;&#34;&#34;Preprocess raw raster data.
+    
+    Parameter
+    ---------
+    raster_data : pandas.DataFrame
+        Raw raster data including columns: &#34;coord_x&#34;, &#34;coord_y&#34;, &#34;z&#34;, &#34;mask&#34; and
+        features columns.
+    
+    Returns
+    -------
+    pandas.DataFrame
+    
+    &#34;&#34;&#34;
+    
+    ## Remove No values data
+    raster_data = raster_data[raster_data[&#39;mask&#39;]==False]
+    
+    raster_data[&#34;aspect_cos&#34;] = np.cos(convert_rad(raster_data[&#34;aspect&#34;]))
+    raster_data[&#34;aspect_sin&#34;] = np.sin(convert_rad(raster_data[&#34;aspect&#34;]))
+
+    raster_data = (raster_data.assign(
+                      aspect_cos = np.cos(convert_rad(raster_data[&#34;aspect&#34;])),
+                      aspect_sin = np.sin(convert_rad(raster_data[&#34;aspect&#34;])),
+                      x = raster_data[&#34;coord_x&#34;],
+                      y = raster_data[&#34;coord_y&#34;])
+                               .drop(columns=[&#34;coord_x&#34;, &#34;coord_y&#34;])
+                               .dropna())
+    # reorder
+    columns = [&#34;x&#34;, &#34;y&#34;, &#34;z&#34;, &#34;mask&#34;]
+    reordered_columns = columns + (raster_data.columns.drop(columns).tolist())
+    raster_data = raster_data[reordered_columns]
+    
+    return raster_data</code></pre>
+</details>
+</dd>
+<dt id="SM.process.preprocess_spatiotempmodel"><code class="name flex">
+<span>def <span class="ident">preprocess_spatiotempmodel</span></span>(<span>data: pandas.core.frame.DataFrame) ‑> pandas.core.frame.DataFrame</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Preprocess data for models of class SpatioTempModel.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def preprocess_spatiotempmodel(data:pd.DataFrame) -&gt; pd.DataFrame:
+    &#34;&#34;&#34;Preprocess data for models of class SpatioTempModel.&#34;&#34;&#34;
+    
+    data = (data.assign(x = data[&#34;UTMWGS84_E[m]&#34;],
+                        y = data[&#34;UTMWGS84_N[m]&#34;],
+                        z = data[&#34;Depth_m&#34;])
+                .drop(columns=[&#34;UTMWGS84_E[m]&#34;, &#34;UTMWGS84_N[m]&#34;, &#34;Depth_m&#34;,
+                                &#34;Region&#34;])
+                .dropna())
+    # subset to base columns (important for subsequent processing) and features
+    columns = [&#34;Date&#34;, &#34;Date_integer&#34;, &#34;Box&#34;, &#34;Sensor&#34;, &#34;x&#34;, &#34;y&#34;, &#34;z&#34;,
+              &#34;Soil_moisture&#34;] + Project.features_select
+    #reordered_columns = columns + (data.columns.drop(columns).tolist())
+    data = data[columns]
+    data = data.loc[:, ~data.columns.duplicated()]
+        
+    return data</code></pre>
+</details>
+</dd>
+<dt id="SM.process.raster_select_features"><code class="name flex">
+<span>def <span class="ident">raster_select_features</span></span>(<span>raster_data, date)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Subset raster data to feature columns and, in case, get temporal
+features from the training data.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>raster_data</code></strong> :&ensp;<code>pandas.DataFrame</code></dt>
+<dd>Data of the raster with columns.</dd>
+<dt><strong><code>date</code></strong> :&ensp;<code>str</code></dt>
+<dd>Date to predict the map for ("yyyy-mm-dd").</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><strong><code>raster_data</code></strong> :&ensp;<code>pandas.DataFrame</code></dt>
+<dd>Subsetted data of the raster.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def raster_select_features(raster_data, date):
+    &#34;&#34;&#34;Subset raster data to feature columns and, in case, get temporal 
+    features from the training data.
+
+    Parameters
+    ----------
+    raster_data : pandas.DataFrame
+        Data of the raster with columns.
+    date : str
+        Date to predict the map for (&#34;yyyy-mm-dd&#34;).
+
+    Returns
+    -------
+    raster_data : pandas.DataFrame
+        Subsetted data of the raster.
+    &#34;&#34;&#34;
+
+    # select features
+    features = Project.features_select
+
+    # remove unused stuff
+    if &#39;Date&#39; in features : features.remove(&#39;Date&#39;)
+    if &#39;Soil_moisture&#39; in features : features.remove(&#39;Soil_moisture&#39;)
+    features = [word if word != &#39;Depth_m&#39; else &#39;z&#39; for word in features]
+
+    # get temporal features that are not stored in raster_data 
+    feats_in_raster = [x for x in features for y in raster_data.columns if x==y]
+    feats_not_in_raster = [x for x in features if x not in feats_in_raster]
+
+    # get feature values at specific date from traning_testing data
+    X_traintest = read_data()
+    X_traintest = preprocess_spatiotempmodel(X_traintest)
+    X_feats = (X_traintest.loc[X_traintest[&#34;Date&#34;]==date,feats_not_in_raster]
+                          .drop_duplicates())
+    if len(X_feats)==0: 
+        raise ValueError(&#39;The provided Data is not in the data.&#39;)
+
+    # add to raster
+    for i,value in enumerate(X_feats.values[0]):
+        raster_data[X_feats.columns[i]] = value
+
+    raster_data = raster_data[features]
+
+    return raster_data</code></pre>
+</details>
+</dd>
+<dt id="SM.process.scale_data"><code class="name flex">
+<span>def <span class="ident">scale_data</span></span>(<span>X_train, X_test)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Scale training and testing data with StandardScaler().</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>X_train</code></strong> :&ensp;<code>pandas.DataFrame</code></dt>
+<dd>Training data.</dd>
+<dt><strong><code>X_test</code></strong> :&ensp;<code>pandas.DataFrame</code></dt>
+<dd>Test data.</dd>
+</dl>
+<h2 id="return">Return</h2>
+<p>Tuple of scaled data : pandas.DataFrame, scaler</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def scale_data(X_train, X_test):
+    &#34;&#34;&#34;Scale training and testing data with StandardScaler().
+    
+    Parameters
+    ----------
+    X_train : pandas.DataFrame
+        Training data.
+    X_test : pandas.DataFrame
+        Test data.
+    
+    Return
+    ------
+    Tuple of scaled data : pandas.DataFrame, scaler
+    &#34;&#34;&#34;
+    scaler = StandardScaler().fit(X_train)
+    return (scaler.transform(X_train), scaler.transform(X_test), scaler)</code></pre>
+</details>
+</dd>
+<dt id="SM.process.shuffle_split_data_randomly"><code class="name flex">
+<span>def <span class="ident">shuffle_split_data_randomly</span></span>(<span>X, train_size, random_seed)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Split data into a training set and test set randomly in space and time.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>X</code></strong> :&ensp;<code>Pandas Dataframe</code></dt>
+<dd>Dataset to split: Measurements of soil moisture and all features</dd>
+<dt><strong><code>train_size</code></strong> :&ensp;<code>float</code></dt>
+<dd>Proportion of measurements used for the training set</dd>
+<dt><strong><code>random_seed</code></strong> :&ensp;<code>integer</code></dt>
+<dd>Value of random seed for creating the random split</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><strong><code>train_set</code></strong> :&ensp;<code>Pandas Dataframe</code></dt>
+<dd>Dataset containing the data for training</dd>
+<dt><strong><code>test_set</code></strong> :&ensp;<code>Pandas Dataframe</code></dt>
+<dd>Dataset containing the data for testing</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def shuffle_split_data_randomly(X, train_size, random_seed):
+    &#34;&#34;&#34;
+    Split data into a training set and test set randomly in space and time.
+       
+    Parameters
+    ---------
+    X : Pandas Dataframe
+        Dataset to split: Measurements of soil moisture and all features
+    train_size : float
+        Proportion of measurements used for the training set
+    random_seed : integer
+        Value of random seed for creating the random split
+        
+    Returns
+    -------
+    train_set : Pandas Dataframe
+        Dataset containing the data for training   
+    test_set : Pandas Dataframe
+        Dataset containing the data for testing
+    &#34;&#34;&#34;
+    
+    np.random.seed(random_seed) # set random seed for reproducibility
+
+    # split available measurements accordong to train_size
+    arr_rand = np.random.rand(X.shape[0])
+    split = arr_rand &lt; np.percentile(arr_rand, train_size * 100)
+    
+    train_set = X[split]
+    test_set = X[~split]
+
+    print(&#34;Splitting randomly: \nTrain set:&#34;, len(train_set), &#34; measurements \n&#34;, 
+          &#34;Test set:&#34;, len(test_set), &#34; measurements&#34;)
+    return train_set, test_set</code></pre>
+</details>
+</dd>
+<dt id="SM.process.shuffle_split_data_spatially"><code class="name flex">
+<span>def <span class="ident">shuffle_split_data_spatially</span></span>(<span>X, train_size, random_seed)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Split data into a training set and test set based on locations (boxes).
+All rows with the same value for 'box' will be either go into training or test set.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>X</code></strong> :&ensp;<code>Pandas Dataframe</code></dt>
+<dd>Dataset to split: Measurements of soil moisture and all features</dd>
+<dt><strong><code>train_size</code></strong> :&ensp;<code>float</code></dt>
+<dd>Proportion of boxes used for the training set (not measurements!)</dd>
+<dt><strong><code>random_seed</code></strong> :&ensp;<code>integer</code></dt>
+<dd>Value of random seed for creating the random split</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><strong><code>train_set</code></strong> :&ensp;<code>Pandas Dataframe</code></dt>
+<dd>Dataset containing the data for training</dd>
+<dt><strong><code>test_set</code></strong> :&ensp;<code>Pandas Dataframe</code></dt>
+<dd>Dataset containing the data for testing</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def shuffle_split_data_spatially(X, train_size, random_seed):
+    &#34;&#34;&#34;
+    Split data into a training set and test set based on locations (boxes).
+    All rows with the same value for &#39;box&#39; will be either go into training or test set.
+       
+    Parameters
+    ---------
+    X : Pandas Dataframe
+        Dataset to split: Measurements of soil moisture and all features
+    train_size : float
+        Proportion of boxes used for the training set (not measurements!)
+    random_seed : integer
+        Value of random seed for creating the random split
+        
+    Returns
+    -------
+    train_set : Pandas Dataframe
+        Dataset containing the data for training   
+    test_set : Pandas Dataframe
+        Dataset containing the data for testing
+    &#34;&#34;&#34;
+    
+    np.random.seed(random_seed) # set random seed for reproducibility
+    
+    # split available boxes accordong to train_size
+    boxes = X.Box.unique()
+    arr_rand = np.random.rand(boxes.shape[0])
+    split_boxes = arr_rand &lt; np.percentile(arr_rand, train_size * 100)
+    train_boxes = boxes[split_boxes]
+    test_boxes = boxes[~split_boxes]
+    
+    # split entire data set    
+    train_set = X[X.Box.isin(train_boxes)]
+    test_set = X[X.Box.isin(test_boxes)]
+
+    print(&#34;Splitting spatially:\nTrain set:&#34;, len(train_set), &#34; measurements of&#34;, len(train_boxes), 
+          &#34; boxes \n Test set:&#34;, len(test_set), &#34; measurements of&#34;, len(test_boxes), &#34; boxes&#34;)
+    return train_set, test_set</code></pre>
+</details>
+</dd>
+<dt id="SM.process.split_data"><code class="name flex">
+<span>def <span class="ident">split_data</span></span>(<span>X, train_size, split_type, random_seed=42)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Wrapper to split data into a training set and a test set based on: 1) locations (boxes) or 2) randomly.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>X</code></strong> :&ensp;<code>pandas.Dataframe</code></dt>
+<dd>Data set to split: Measurements of soil moisture and all features.</dd>
+<dt><strong><code>train_size</code></strong> :&ensp;<code>float</code></dt>
+<dd>Proportion of boxes ("spatial") or data ("random") that is used for the training set.</dd>
+<dt><strong><code>split_type</code></strong> :&ensp;<code>string</code></dt>
+<dd>two options: either
+"spatial" for splitting by location (boxes) or "random" for totaly random split in space and time.</dd>
+<dt><strong><code>random_seed</code></strong> :&ensp;<code>integer default: 42</code></dt>
+<dd>Value of random seed for creating the random split, useful for creating different splits.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><strong><code>X_train</code></strong> :&ensp;<code>pandas.Dataframe</code></dt>
+<dd>Dataset containing features for training.</dd>
+<dt><strong><code>X_test</code></strong> :&ensp;<code>pandas.Dataframe</code></dt>
+<dd>Dataset containing features for testing.</dd>
+<dt><strong><code>y_train</code></strong> :&ensp;<code>pandas.Series</code></dt>
+<dd>Soil moisture values of training set.</dd>
+<dt><strong><code>y_test</code></strong> :&ensp;<code>pandas.Series</code></dt>
+<dd>Soil moisture values of test set.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def split_data(X, train_size, split_type, random_seed = 42):
+    &#34;&#34;&#34;
+    Wrapper to split data into a training set and a test set based on: 1) locations (boxes) or 2) randomly.
+    
+    Parameters
+    ---------
+    X : pandas.Dataframe
+        Data set to split: Measurements of soil moisture and all features.
+    train_size : float
+        Proportion of boxes (&#34;spatial&#34;) or data (&#34;random&#34;) that is used for the training set.
+    split_type : string
+        two options: either  &#34;spatial&#34; for splitting by location (boxes) or &#34;random&#34; for totaly random split in space and time.
+    random_seed : integer default: 42
+        Value of random seed for creating the random split, useful for creating different splits.
+        
+    Returns
+    -------
+    X_train: pandas.Dataframe
+        Dataset containing features for training.
+    X_test: pandas.Dataframe
+        Dataset containing features for testing.
+    y_train: pandas.Series
+        Soil moisture values of training set.
+    y_test: pandas.Series
+        Soil moisture values of test set.
+    &#34;&#34;&#34;
+
+    if split_type == &#34;spatial&#34;:
+        train_set, test_set = shuffle_split_data_spatially(X, train_size, random_seed)
+    
+    if split_type == &#34;random&#34;:
+        train_set, test_set = shuffle_split_data_randomly(X, train_size, random_seed)
+    
+    X_train = train_set.drop([&#34;Soil_moisture&#34;], axis=1)
+    y_train = train_set.Soil_moisture
+    X_test = test_set.drop([&#34;Soil_moisture&#34;], axis=1)
+    y_test = test_set.Soil_moisture
+    
+    return X_train, X_test, y_train, y_test</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="SM" href="index.html">SM</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="SM.process.convert_rad" href="#SM.process.convert_rad">convert_rad</a></code></li>
+<li><code><a title="SM.process.create_daily_XY" href="#SM.process.create_daily_XY">create_daily_XY</a></code></li>
+<li><code><a title="SM.process.create_gdf_from_df" href="#SM.process.create_gdf_from_df">create_gdf_from_df</a></code></li>
+<li><code><a title="SM.process.preprocess" href="#SM.process.preprocess">preprocess</a></code></li>
+<li><code><a title="SM.process.preprocess_raster" href="#SM.process.preprocess_raster">preprocess_raster</a></code></li>
+<li><code><a title="SM.process.preprocess_raster_spatiotempmodel" href="#SM.process.preprocess_raster_spatiotempmodel">preprocess_raster_spatiotempmodel</a></code></li>
+<li><code><a title="SM.process.preprocess_spatiotempmodel" href="#SM.process.preprocess_spatiotempmodel">preprocess_spatiotempmodel</a></code></li>
+<li><code><a title="SM.process.raster_select_features" href="#SM.process.raster_select_features">raster_select_features</a></code></li>
+<li><code><a title="SM.process.scale_data" href="#SM.process.scale_data">scale_data</a></code></li>
+<li><code><a title="SM.process.shuffle_split_data_randomly" href="#SM.process.shuffle_split_data_randomly">shuffle_split_data_randomly</a></code></li>
+<li><code><a title="SM.process.shuffle_split_data_spatially" href="#SM.process.shuffle_split_data_spatially">shuffle_split_data_spatially</a></code></li>
+<li><code><a title="SM.process.split_data" href="#SM.process.split_data">split_data</a></code></li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.9.2</a>.</p>
+</footer>
+</body>
+</html>

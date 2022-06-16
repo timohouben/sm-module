@@ -1,0 +1,62 @@
+# spyder/jupyter/vscode/IDE related
+.ipynb_checkpoints
+.spyproject
+__pycache__
+*/__pycache__
+*/.ipynb_checkpoints
+*/.spyproject
+*/__pycache__
+*.pyc
+.gitignore~
+*.code-workspace
+.vscode
+*.vscode
+.vscode/*
+.Rhistory
+
+# scikitlearn models
+*.sav
+
+# binaries
+*.pdf
+*.ppt
+*.pptx
+
+# OS related
+*.DS_Store
+
+# user specifics
+notebooks/SK_scripts
+workspace.code-workspace
+
+# exclude data
+#whole data folder(LS):
+data/*
+
+# leave raw data for 'site_test' in
+data/shared/**
+data/site_rollesbroich
+data/site_wuestebach
+data/site_hohesholz
+data/site_test/**/tmp
+data/site_test/**/preprocessed
+data/site_test/model_input
+
+# temporary files
+tmp
+
+# personal results
+maps/
+models/
+results/
+
+# run files
+SM_run_TH_20210120.py
+
+# compiled
+*sm.egg-info*
+*dist*
+**__pycache__**
+*egg*
+*soil_moisture_module.egg-info*
+*build/lib/SM*

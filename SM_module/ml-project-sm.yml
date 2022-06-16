@@ -1,0 +1,17 @@
+# create this environment with python 3.7 with e.g. the following command:
+# conda create -n ml-project-sm python=3.7
+# Install required packaged afterwards with this command:
+# conda env update -n ml-project-sm --file ml-project-sm.yml
+
+name: ml-project-sm
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - geopandas=0.9.0
+  - matplotlib=3.4.1
+  - numpy=1.20.2
+  - pandas=1.2.4
+  - scikit-learn=0.24.1
+  - scipy=1.6.2
+  - seaborn=0.11.1
