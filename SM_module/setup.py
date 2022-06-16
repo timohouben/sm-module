@@ -7,7 +7,7 @@ AUTHORS = "Timo Houben, Johannes Boog, Swamini Khurana, Lennart Schmidt, Julia S
 EMAIL = "timo.hoube@ufz.de"
 LICENSE = "Copyright(c) 2005-2020, Helmholtz-Zentrum fuer Umweltforschung GmbH - UFZ. All rights reserved."
 PROJECT_URLS = {
-    "GitLab": "https://git.ufz.de/ml-cafe/ml-cafe_project_soilmoisture/-/tree/master/SM_module",
+    "GitLab": "https://git.ufz.de/ml-cafe/sm-module/-/tree/master/SM_module",
     "Documentation": "TBDone",
 }
 
