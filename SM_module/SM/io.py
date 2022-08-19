@@ -1,18 +1,4 @@
-#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# ======================================================================
-# Created by : Mohit Anand
-# Created on : On Sat Jan 16 2021 at 00:10:48
-# ======================================================================
-# __author__ = Mohit Anand
-# __copyright__ = Copyright (c) 2021, Mohit Anand, Soil Moisture Project
-# __credits__ = [Mohit Anand,]
-# __license__ = MIT
-# __version__ = 0.0.1
-# __maintainer__ = Mohit Anand
-# __email__ = mohit.anand@ufz.de
-# __status__ = development
-# ======================================================================
 """ The file has been build for all input output transfer of data """
 #
 
@@ -25,11 +11,11 @@ from SM.cfg import Project
 
 def read_data() -> pd.DataFrame:
     """Read model input data based on type of file.
-    
+
     Returns
     -------
     pandas.DataFrame
-    
+
     """
     try:
         with open(Project.data_path, "rb") as f:
@@ -48,11 +34,11 @@ def read_data() -> pd.DataFrame:
 
 def read_raster():
     """Read raster input data based on type of file.
-    
+
     Returns
     -------
     pandas.DataFrame
-    
+
     """
     try:
         with open(Project.raster_path, "rb") as f:

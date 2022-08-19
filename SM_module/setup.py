@@ -2,7 +2,7 @@ import SM
 
 VERSION = SM.__version__
 DISTNAME = "soil moisture module"
-DESCRIPTION = ("Soil Moisture module for Machine Learning Cafe Project Soil Moisture",)
+DESCRIPTION = ("Soil Moisture module for Digital Soil Moisture Mapping",)
 AUTHORS = "Timo Houben, Johannes Boog, Swamini Khurana, Lennart Schmidt, Julia Schmid, Pia Ebeling, Mohit Anand"
 EMAIL = "timo.hoube@ufz.de"
 LICENSE = "Copyright(c) 2005-2020, Helmholtz-Zentrum fuer Umweltforschung GmbH - UFZ. All rights reserved."

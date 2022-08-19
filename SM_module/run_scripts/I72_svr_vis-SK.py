@@ -20,13 +20,19 @@ import itertools
 from sklearn.svm import SVR
 
 from SM.process import merge_csv_files
-from SM.vis import f_heatmap,temporal_scatter, plot_boxplot, compare_perform_residualmaps, compare_perform_boxplots
+from SM.vis import (
+    f_heatmap,
+    temporal_scatter,
+    plot_boxplot,
+    compare_perform_residualmaps,
+    compare_perform_boxplots,
+)
 from SM.eval import pair_wise_f_test
 from SM.training import SpatioTempModel
 from SM.maps import SpatialMap
 from SM.io import load_model
 
-print ("All libraries loaded")
+print("All libraries loaded")
 #%%
 # ------------------------------------------------------------------------------
 # USER SETTINGS
@@ -35,23 +41,27 @@ print ("All libraries loaded")
 name = "SK"
 project_dir = "C:/Users/swami/Documents/Projects/soil_moisture/ml_cafe_proj"
 
-#Select for the models with the best performance statistic
+# Select for the models with the best performance statistic
 performance_dir = os.path.join(project_dir, "performance_stats")
 output_file = os.path.join(project_dir, "results", "consolidated_performance_stats.csv")
 
 performance_data = merge_csv_files(performance_dir, output_file)
-print ("Performance statistics consolidated and saved in csv file")
+print("Performance statistics consolidated and saved in csv file")
 print(performance_data.shape)
 #%%
-#Filter data:
+# Filter data:
 performance_data = pd.read_csv(output_file)
-top_6_models = performance_data.sort_values(by='R2_score', ascending=False)[:6]
+top_6_models = performance_data.sort_values(by="R2_score", ascending=False)[:6]
 print(top_6_models.shape)
 print("Models sorted in descending order by r2 score")
 
-compare_perform_boxplots(list(top_6_models.UID.values), ['R2_score','RMSE', 'MAE'], project_dir, "SK")
+compare_perform_boxplots(
+    list(top_6_models.UID.values), ["R2_score", "RMSE", "MAE"], project_dir, "SK"
+)
 print("Box plots comparing performances saved")
-top_6_models.to_csv(os.path.join(project_dir, "results", "top_6_models.csv"), index = False)
+top_6_models.to_csv(
+    os.path.join(project_dir, "results", "top_6_models.csv"), index=False
+)
 toplist = list(top_6_models.UID.values)
 # don't change these lines
 try:
@@ -79,7 +89,7 @@ residuals_data = merge_csv_files(residuals_dir, output_file)
 #
 # load residuals data and filter as you see fit
 residuals_data = pd.read_csv(output_file)
-filt_data = residuals_data[residuals_data['UID'].isin(toplist)].reset_index()
+filt_data = residuals_data[residuals_data["UID"].isin(toplist)].reset_index()
 fig = plot_boxplot(filt_data, "residuals", "UID")
 figfile = os.path.join(project_dir, "figures", "residuals_boxplots.png")
 fig.savefig(figfile, dpi=300, layout="tight")
@@ -95,7 +105,7 @@ residuals_dir = os.path.join(project_dir, "results")
 filename = "consolidated_residuals.csv"
 residuals_path = os.path.join(residuals_dir, filename)
 data = pd.read_csv(residuals_path)
-#filt_data = data
+# filt_data = data
 temp_scat = temporal_scatter(filt_data, "residuals", "Date", "y_true", project_dir)
 
 #%%
@@ -146,7 +156,7 @@ for method in toplist:
 # ------------------------------------------------------------------------------
 #
 name = "SK"
-method = "iter_5000_seed_12000"  
+method = "iter_5000_seed_12000"
 dates = ["2012-10-16", "2013-01-16", "2013-04-16", "2013-07-16"]
 for date_op in dates:
     # predict the map

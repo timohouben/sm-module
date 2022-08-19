@@ -1,18 +1,4 @@
-#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# ======================================================================
-# Created by : Mohit Anand
-# Created on : On Sat Jan 16 2021 at 17:23:27
-# ======================================================================
-# __author__ = Mohit Anand
-# __copyright__ = Copyright (c) 2021, Mohit Anand, Soil Moisture Project
-# __credits__ = [Mohit Anand, Timo Houben]
-# __license__ = MIT
-# __version__ = 0.0.1
-# __maintainer__ = Mohit Anand
-# __email__ = mohit.anand@ufz.de
-# __status__ = development
-# ======================================================================
 """ The file has been build for creating beautiful maps! """
 #
 
@@ -75,7 +61,7 @@ class SpatialMap(object):
 
     def plot_maps(self, grid=True):
         """Plot predicted raster data as maps and save as PNG.
-        
+
         Parameter
         ---------
         grid : boolean, Default: True
@@ -203,9 +189,9 @@ class SpatialMap(object):
         return self.pred_gdf
 
     def _predict_spatiotempmodel(self):
-        """Predict a map for a specific time stamp for a model of class 
+        """Predict a map for a specific time stamp for a model of class
         SpatioTempModel.
-        
+
         Returns
         -------
         pandas.DataFrame

@@ -3,6 +3,7 @@
 # Authors:  TIMO HOUBEN <timo.houben@ufz.de>
 # ------------------------------------------------------------------------------
 import datetime
+
 now = datetime.datetime.now()
 print("Starting script at: ")
 print(str(now))
@@ -43,23 +44,23 @@ project_dir = "/work/houben/nn-daily"
 # csv_file_path = "FULL/PATH/TO/A/CSV/FILE/FOR/MAP/CREATION.csv"
 # specify the model and its parameters
 mplreg = MLPRegressor(
-                    activation="logistic",
-                    alpha=1e-05,
-                    early_stopping=True,
-                    hidden_layer_sizes=(50, 25, 12, 7, 4),
-                    learning_rate="adaptive",
-                    learning_rate_init=1e-05,
-                    max_iter=1000,
-                    momentum=0.9,
-                    n_iter_no_change=10,
-                    nesterovs_momentum=True,
-                    random_state=42,
-                    shuffle=True,
-                    solver="adam",
-                    tol=1e-06,
-                    validation_fraction=0.1,
-                    verbose=True
-                    )
+    activation="logistic",
+    alpha=1e-05,
+    early_stopping=True,
+    hidden_layer_sizes=(50, 25, 12, 7, 4),
+    learning_rate="adaptive",
+    learning_rate_init=1e-05,
+    max_iter=1000,
+    momentum=0.9,
+    n_iter_no_change=10,
+    nesterovs_momentum=True,
+    random_state=42,
+    shuffle=True,
+    solver="adam",
+    tol=1e-06,
+    validation_fraction=0.1,
+    verbose=True,
+)
 # define features to use
 features = None  # if None, default is used
 # ------------------------------------------------------------------------------
@@ -87,7 +88,7 @@ st_model.scatter_plot()
 st_model.residuals
 # make box plot of residuals for this model
 st_model.box_plot()
-#record feature importance
+# record feature importance
 st_model.box_plot_feature_importance()
 
 # don't change these lines

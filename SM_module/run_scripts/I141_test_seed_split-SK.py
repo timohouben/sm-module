@@ -10,10 +10,10 @@ information as you can/is worth the effort.
 import os
 
 # change dir to where the module folder is located
-#cur_dir = "C:/Users/khurana/Documents/Scripts/ml-cafe_project_soilmoisture/SM_module"
-#os.chdir(cur_dir)
+# cur_dir = "C:/Users/khurana/Documents/Scripts/ml-cafe_project_soilmoisture/SM_module"
+# os.chdir(cur_dir)
 
-#import itertools
+# import itertools
 from sklearn.svm import SVR
 
 from SM.training import SpatioTempModel
@@ -36,7 +36,7 @@ project_dir = "C:/Users/swami/Documents/Projects/soil_moisture"
 # for plotting
 # csv_file_path = "FULL/PATH/TO/A/CSV/FILE/FOR/MAP/CREATION.csv"
 # specify the model and its parameters
-estimator = SVR(C=0.1, epsilon = 0.05, kernel = 'rbf', max_iter = 100)
+estimator = SVR(C=0.1, epsilon=0.05, kernel="rbf", max_iter=100)
 # define features to use
 features = []  # if None, default is used
 # ------------------------------------------------------------------------------
@@ -46,23 +46,23 @@ features = []  # if None, default is used
 # accodring to the mandatory variables from saved files.
 # create instance of SpatioTempModel
 
-#Train for multiple seeds:
+# Train for multiple seeds:
 for s in [42, 1337, 7, 420, 12000]:
-    method = method_name+"_"+str(s)
+    method = method_name + "_" + str(s)
     st_model = SpatioTempModel(
         estimator=estimator,
         method=method,
-        project_dir = project_dir,
+        project_dir=project_dir,
         name=name,
-        details=details
-        )
+        details=details,
+    )
     # train the model
     st_model.train_test(splitseed=s)
     # plot true vs predicted values
     st_model.scatter_plot()
     # plot boxplot of residuals
     st_model.box_plot()
-    #record feature importance
+    # record feature importance
     st_model.box_plot_feature_importance()
 
 # don't change these lines

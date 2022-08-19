@@ -1,18 +1,4 @@
-#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# ======================================================================
-# Created by : Pia Ebeling
-# Created on : Mon May 31 14:08:16 2021
-# ======================================================================
-# __author__ = Pia Ebeling
-# __copyright__ = Copyright (c) 2021, Pia Ebeling, Project Soil Moisture
-# __credits__ = [Pia Ebeling]
-# __license__ = MIT
-# __version__ = 0.0.1
-# __maintainer__ = Pia Ebeling
-# __email__ = pia.ebeling@ufz.de
-# __status__ = development
-# ======================================================================
 """ The file provides functions to compare different machine learning models and/or algortihms """
 
 import pandas as pd
@@ -30,6 +16,7 @@ import seaborn as sns  # SK
 # import from SM module
 from SM.cfg import Project
 from SM.process import create_gdf_from_df
+
 
 def compare_perform_boxplots(filenames, measures, project_dir, pltname):
     """
@@ -66,7 +53,7 @@ def compare_perform_boxplots(filenames, measures, project_dir, pltname):
     # cols = ["Method","Name","Details"] + measures
     li = []
     for file in filenames:
-        df = pd.read_csv(os.path.join(path, file+'.csv'), index_col=None, header=0)
+        df = pd.read_csv(os.path.join(path, file + ".csv"), index_col=None, header=0)
         # check columns of files
         print(file)
         print(df[0:2])
@@ -132,7 +119,7 @@ def plot_boxplot(data, ycolumn, xcolumn):
     """Function to plot boxplots depicting residuals for
     multiple models in one figure. The residuals are to be loaded
     independently from a csv file.
-    
+
     Parameter
     ---------
     data: pandas dataframe with columns unique ID (model.uid) and residuals.
@@ -155,12 +142,12 @@ def f_heatmap(data, ycolumn):
     """
     Function to plot heatmap of a value of a pair of models with a diverging color palette.
     For example, F-statistic.
-    
+
     Parameter
     --------
     data: Pandas dataframe with at least 2 columns titled UID_1 and UID_2.
     ycolumn: Column header for values to be plotted in the heatmap.
-    
+
     Returns
     -------
     None
@@ -179,14 +166,14 @@ def temporal_scatter(df, ycolumn, xcolumn, huecolumn, project_dir):
     Function to plot scatterplot of 2 variables with color varying
     according to a variable, with fixed 3 columns and number of rows dependent on
     total number of models.
-    
+
     Parameter
     --------
     df: Pandas dataframe with at least 2 columns titled UID_1 and UID_2.
     ycolumn: Column header for values to be plotted in the scatterplot.
     xcolumn: Column header for values in the X axis.
     huecolumn: Column header for values for variation of colour.
-    
+
     Returns
     -------
     Scatter plot.
@@ -199,11 +186,12 @@ def temporal_scatter(df, ycolumn, xcolumn, huecolumn, project_dir):
     uid_list = df.UID.unique().tolist()
     grid_cols = 2
     grid_rows = int(len(uid_list) / grid_cols)
-    if grid_rows==0:
-        grid_rows=1
+    if grid_rows == 0:
+        grid_rows = 1
     color_map = mpl.colors.ListedColormap(Bluescmap[10:, :-1])
-    fig, axes = plt.subplots(ncols=grid_cols, nrows=grid_rows, sharex=True, sharey=True,
-                             figsize = (10,8))
+    fig, axes = plt.subplots(
+        ncols=grid_cols, nrows=grid_rows, sharex=True, sharey=True, figsize=(10, 8)
+    )
     for u in uid_list:
         data = df[df.UID == u]
         idx = uid_list.index(u)
@@ -252,23 +240,23 @@ def mean_r2_rmse_cv(g):
     """
     This function computes mean, R2, RMSE and CV of the pandas dataframe in compare_perform_residualmaps()
     The function is used for aggregating with groupby().
-    
+
     Parameters
     ----------
-    g: Pandas dataframe 
+    g: Pandas dataframe
 
     Returns
     -------
     Pandas series.
 
     """
-    x = np.mean(g['x'])
-    y = np.mean(g['y'])
-    mean = np.mean(g['residuals'])
-    r2 = r2_score( g['y_true'], g['y_pred'] )
-    rmse = mean_squared_error(g['y_true'], g['y_pred'], squared=False)
-    cv = np.std(g['residuals'], ddof=1) / np.mean(g['residuals'])
-    return pd.Series(dict(x=x, y=y, mean = mean, r2 = r2, rmse = rmse, cv = cv ))
+    x = np.mean(g["x"])
+    y = np.mean(g["y"])
+    mean = np.mean(g["residuals"])
+    r2 = r2_score(g["y_true"], g["y_pred"])
+    rmse = mean_squared_error(g["y_true"], g["y_pred"], squared=False)
+    cv = np.std(g["residuals"], ddof=1) / np.mean(g["residuals"])
+    return pd.Series(dict(x=x, y=y, mean=mean, r2=r2, rmse=rmse, cv=cv))
 
 
 def compare_perform_residualmaps(data, project_dir, measure="mean"):
@@ -278,7 +266,7 @@ def compare_perform_residualmaps(data, project_dir, measure="mean"):
 
     Parameters
     ----------
-    data: Pandas dataframe 
+    data: Pandas dataframe
     measure : string
         Performance measures to be plotted:
             "mean": Mean residuals per box (over time, depths and sensors)
@@ -287,26 +275,24 @@ def compare_perform_residualmaps(data, project_dir, measure="mean"):
             "cv": Coefficient of variation of residuals
     project_dir : string
         Project directory with subdirectories "results" and "figures".
-        
+
     Returns
     -------
     None.
 
     """
-    
+
     # Number of models in "consolidated_residuals.csv"
     models = data.UID.unique()
     N = len(data.UID.unique())
 
     # Build mean, R2, RMSE and CV over residuals of a specific box
     data_mean = data.groupby(["UID", "Box"]).apply(mean_r2_rmse_cv).reset_index()
-    
+
     # convert Pandas dataframe to GeoDataFrame
     if not isinstance(data_mean, gpd.GeoDataFrame):
-                data_mean = create_gdf_from_df(
-                    data_mean, x="x", y="y"
-                )
-    
+        data_mean = create_gdf_from_df(data_mean, x="x", y="y")
+
     # Legend lables
     if measure == "mean":
         legendlabel = "Mean residuals [-]"
@@ -315,37 +301,30 @@ def compare_perform_residualmaps(data, project_dir, measure="mean"):
         legendlabel = "R2 [-]"
         cmap = mpl.cm.get_cmap("BuGn")
     if measure == "rmse":
-        legendlabel = "RMSE [-]" 
+        legendlabel = "RMSE [-]"
         cmap = mpl.cm.get_cmap("YlOrRd")
     if measure == "cv":
         legendlabel = "Coefficient of variation of residuals [-]"
         cmap = mpl.cm.get_cmap("seismic")
-    
+
     fmt = lambda x, pos: "{:.0f}".format(x)
-    
-    fig, axes = plt.subplots(
-        1, N, figsize=(2 * N, 6), sharey=True, sharex=True
-    )
+
+    fig, axes = plt.subplots(1, N, figsize=(2 * N, 6), sharey=True, sharex=True)
     for i in range(N):
         data_mean_plot = data_mean.plot(
-            ax=axes[i],
-            column=measure,
-            cmap=cmap,
-            edgecolor="k"
-            )
+            ax=axes[i], column=measure, cmap=cmap, edgecolor="k"
+        )
         axes[i].yaxis.set_major_formatter(mpl.ticker.FuncFormatter(fmt))
         axes[i].xaxis.set_major_formatter(mpl.ticker.FuncFormatter(fmt))
         axes[i].set_title(str(models[i]), pad=20)
         collection = data_mean_plot.collections[0]
-    
+
     cbar = plt.colorbar(collection, ax=axes[-1], extend="both")
     cbar.ax.set_ylabel(legendlabel, fontsize=14)
-    
+
     # save maps as png
     output_file = "figures/compare_perform_residualmaps" + measure + ".png"
     print("Saving maps of all models in: " + output_file)
-    f_path = os.path.join(
-        project_dir, output_file 
-        )
-    plt.savefig(f_path)    
-    return None   
+    f_path = os.path.join(project_dir, output_file)
+    plt.savefig(f_path)
+    return None

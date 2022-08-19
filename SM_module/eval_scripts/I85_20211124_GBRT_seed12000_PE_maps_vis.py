@@ -47,7 +47,7 @@ st_model = SpatioTempModel(
     features=features,
 )
 
-# load the model and save it as attribute of the 
+# load the model and save it as attribute of the
 st_model.model, _ = load_model(fname)
 
 # ------------------------------------------------------------------------------
@@ -55,11 +55,22 @@ st_model.model, _ = load_model(fname)
 # ------------------------------------------------------------------------------
 # create maps for several dates
 # date for which the maps should be predicted and plotted
-dates = ["2012-09-16", "2012-10-16", "2012-11-16",
-         "2012-12-16", "2013-01-16", "2013-02-16",
-         "2013-03-16", "2013-04-16", "2013-05-16",
-         "2013-06-16", "2013-07-16", "2013-08-16",
-         "2013-09-16","2013-10-16"]
+dates = [
+    "2012-09-16",
+    "2012-10-16",
+    "2012-11-16",
+    "2012-12-16",
+    "2013-01-16",
+    "2013-02-16",
+    "2013-03-16",
+    "2013-04-16",
+    "2013-05-16",
+    "2013-06-16",
+    "2013-07-16",
+    "2013-08-16",
+    "2013-09-16",
+    "2013-10-16",
+]
 for date in dates:
     print("Predicting map for method", method, "date", date)
 
@@ -68,4 +79,4 @@ for date in dates:
     # plot the map
     map_3d.plot_maps(grid=False)
     # save the predicted map as csv file
-    #map_3d.save_csv()
+    # map_3d.save_csv()

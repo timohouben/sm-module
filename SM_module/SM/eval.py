@@ -1,18 +1,4 @@
-#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# ======================================================================
-# Created by : Swamini Khurana
-# Created on : On Wed Jun 02 2021 at 21:20:00
-# ======================================================================
-# __author__ = Swamini Khurana
-# __copyright__ = Copyright (c) 2021, Swamini Khurana, Soil Moisture Project
-# __credits__ = [Swamini Khurana, Pia Ebeling]
-# __license__ = MIT
-# __version__ = 0.0.1
-# __maintainer__ = Swamini Khurana
-# __email__ = swamini.khurana@ufz.de
-# __status__ = development
-# ======================================================================
 """ The file has been build for evaluating performance statistics of models """
 #
 
@@ -30,7 +16,7 @@ def mean_error(y_true=0, y_pred=0):
     ---------
     y_true: list of true or test values (data type - float).
     y_pred: list of predictions of the model (data type - float).
-        
+
     Returns
     -------
     Mean error (data type - float)
@@ -48,7 +34,7 @@ def residuals(y_true, y_pred):
     ---------
     y_true: list of true or test values (data type - float).
     y_pred: list of predictions of the model (data type - float).
-        
+
     Returns
     -------
     2D Numpy array of true values, predicted values and residuals (data type - float)
@@ -69,7 +55,7 @@ def pair_wise_f_test(data, ycolumn):
     """
     Function to calculate F-statistic as used in APpelhans(2014).
     Returns pair-wise information in F-statistic.
-    
+
     Parameter
     --------
     data: Pandas dataframe with at leasta one column "UID" (string).
@@ -111,12 +97,12 @@ def fstatistic(x, y):
     """
     Function to calculate F-statistic as used in APpelhans(2014).
     Returns pair-wise information in F-statistic.
-    
+
     Parameter
     --------
     x: Pandas Series with values (float) belonging to model#1
     y: Pandas Series with values (float) belonging to model#2
-    
+
     Returns
     -------
     F statistic and associated p-value

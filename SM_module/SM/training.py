@@ -1,18 +1,4 @@
-#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# ======================================================================
-# Created by : Mohit Anand
-# Created on : On Sat Jan 16 2021 at 00:37:44
-# ======================================================================
-# __author__ = Mohit Anand
-# __copyright__ = Copyright (c) 2021, Mohit Anand, Project
-# __credits__ = [Mohit Anand, Timo Houben]
-# __license__ = MIT
-# __version__ = 0.0.1
-# __maintainer__ = Mohit Anand
-# __email__ = mohit.anand@ufz.de
-# __status__ = development
-# ======================================================================
 """ The file has been build for different training routines """
 #
 
@@ -32,7 +18,12 @@ from SM.misc import platform_release, check_path
 from SM.eval import mean_error, residuals
 from SM.cfg import Project
 from sklearn.model_selection import GridSearchCV, train_test_split
-from sklearn.metrics import r2_score, mean_absolute_error, mean_squared_error, explained_variance_score
+from sklearn.metrics import (
+    r2_score,
+    mean_absolute_error,
+    mean_squared_error,
+    explained_variance_score,
+)
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 from sklearn.inspection import permutation_importance
@@ -40,6 +31,7 @@ from sklearn.inspection import permutation_importance
 import matplotlib.pylab as plt
 import os
 from pathlib import Path
+
 
 class TrainDailyModel(object):
     def __init__(
@@ -262,10 +254,12 @@ class SpatioTempModel(object):
         # path from user input until it it unique
         check_path(self.save_models_path)
 
-    def train_test(self, train_with_cv=False, tuning_hyperparameters=None, splitseed=42):
+    def train_test(
+        self, train_with_cv=False, tuning_hyperparameters=None, splitseed=42
+    ):
         """Method to split and scale input data, train and test a model, as well
         as output the results and model.
-        
+
         Parameter
         ---------
         train_with_cv : boolean, Default: False
@@ -290,7 +284,10 @@ class SpatioTempModel(object):
 
         # split data by locations
         X_train, X_test, y_train, y_test = split_data(
-            self.processed_data, split_type="spatial", train_size=0.8, random_seed=splitseed
+            self.processed_data,
+            split_type="spatial",
+            train_size=0.8,
+            random_seed=splitseed,
         )
 
         aux_data_test = X_test[["Box", "Sensor", "x", "y", "z", "Date", "Date_integer"]]
@@ -328,25 +325,27 @@ class SpatioTempModel(object):
                 param_grid=tuning_hyperparameters,
                 refit=True,
                 cv=cv_folds,
-                scoring='r2'
+                scoring="r2",
             )
 
             # train on training set, predict on test set
             tuner.fit(X_train, y_train)
             y_model_pred = tuner.predict(X_test)
-            
+
             # write tuning results of all cv-folds to disk
             tuner_results = tuner.cv_results_
-            tuner_results_path = os.path.join(self.save_tuner_results_path,
-                                              self.uid+'_tuning.csv')
+            tuner_results_path = os.path.join(
+                self.save_tuner_results_path, self.uid + "_tuning.csv"
+            )
             pd.DataFrame(tuner_results).to_csv(tuner_results_path, index=False)
-            
+
             # write tuning result of best tuning result to disk
             tuner_result_best = pd.DataFrame(tuner_results).loc[tuner.best_index_]
-            tuner_result_best_path = os.path.join(self.save_tuner_results_path,
-                                              self.uid+'_tuning_best.csv')
+            tuner_result_best_path = os.path.join(
+                self.save_tuner_results_path, self.uid + "_tuning_best.csv"
+            )
             tuner_result_best.to_csv(tuner_result_best_path, index=True, header=None)
-            
+
             # update model with trained one and get scaler
             self.model = tuner.best_estimator_.named_steps.model
             scaler = tuner.best_estimator_.named_steps.scaler
@@ -374,16 +373,34 @@ class SpatioTempModel(object):
         rmse = mean_squared_error(y_test, y_model_pred, squared=False)
         mae = mean_absolute_error(y_test, y_model_pred)
         me = mean_error(y_true=y_test, y_pred=y_model_pred)
-        epsilon = explained_variance_score(y_true = y_test, y_pred = y_model_pred)
+        epsilon = explained_variance_score(y_true=y_test, y_pred=y_model_pred)
 
         # add results
-        header = ["Method", "Name", "Details", "R2_score", "MAE", "RMSE", "ME","Exp_variance"]
+        header = [
+            "Method",
+            "Name",
+            "Details",
+            "R2_score",
+            "MAE",
+            "RMSE",
+            "ME",
+            "Exp_variance",
+        ]
         self.results = pd.DataFrame(
             [
                 dict(
                     zip(
                         header,
-                        [self.method, self.name, self.details, r2, mae, rmse, me, epsilon],
+                        [
+                            self.method,
+                            self.name,
+                            self.details,
+                            r2,
+                            mae,
+                            rmse,
+                            me,
+                            epsilon,
+                        ],
                     )
                 )
             ]
@@ -391,7 +408,6 @@ class SpatioTempModel(object):
 
         self.y_pred_list.extend(y_model_pred)
         self.y_test_list.extend(y_test)
-
 
         # save model
         file_path = os.path.join(self.save_models_path, self.uid)
@@ -422,17 +438,19 @@ class SpatioTempModel(object):
 
         # feature importance
         X_train_scaled, X_test_scaled, scaler = scale_data(X_train, X_test)
-  
-        self.r_train = permutation_importance(self.model, X_train_scaled, y_train,n_repeats=15,#0,
-                                   random_state=42)
-        self.r_test = permutation_importance(self.model, X_test_scaled, y_test,n_repeats=15,#0,
-                                   random_state=42)
 
-#        row = []
-#        for i in self.r_train.importances_mean.argsort()[::-1]:
-#            if self.r_train.importances_mean[i] - 2 * self.r_train.importances_std[i] > 0: # what happens here? (JS)
-#                row.append([self.uid, self.details,Project.features_select[i], self.r_train.importances_mean[i], self.r_train.importances_std[i]])
-#        self.imp_features = pd.DataFrame.from_records(row, columns = ["uid","details","feature", "mean", "sdev"])
+        self.r_train = permutation_importance(
+            self.model, X_train_scaled, y_train, n_repeats=15, random_state=42  # 0,
+        )
+        self.r_test = permutation_importance(
+            self.model, X_test_scaled, y_test, n_repeats=15, random_state=42  # 0,
+        )
+
+    #        row = []
+    #        for i in self.r_train.importances_mean.argsort()[::-1]:
+    #            if self.r_train.importances_mean[i] - 2 * self.r_train.importances_std[i] > 0: # what happens here? (JS)
+    #                row.append([self.uid, self.details,Project.features_select[i], self.r_train.importances_mean[i], self.r_train.importances_std[i]])
+    #        self.imp_features = pd.DataFrame.from_records(row, columns = ["uid","details","feature", "mean", "sdev"])
 
     def scatter_plot(self):
         """Create and save a scatter plot of soil moisture observations versus
@@ -500,17 +518,15 @@ class SpatioTempModel(object):
             features_toplot = Project.features_select
         else:
             features_toplot = feature_list
-        print ("Plotting the following features and their importances: ")
+        print("Plotting the following features and their importances: ")
         print(features_toplot)
-        fig, (ax1,ax2) = plt.subplots(1,2,figsize=(6,6), sharex = True, sharey = True)
-        plt.suptitle ("Feature importance")
+        fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(6, 6), sharex=True, sharey=True)
+        plt.suptitle("Feature importance")
 
         ax1.set_title("Training set")
         ax2.set_title("Test set")
-        ax1.boxplot(self.r_train.importances.T, vert=False,
-            labels=features_toplot)
-        ax2.boxplot(self.r_test.importances.T, vert=False,
-            labels=features_toplot)
+        ax1.boxplot(self.r_train.importances.T, vert=False, labels=features_toplot)
+        ax2.boxplot(self.r_test.importances.T, vert=False, labels=features_toplot)
         fig.tight_layout()
         # save
         boxplot_path = os.path.join(

@@ -1,18 +1,4 @@
-#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# ======================================================================
-# Created by : Mohit Anand
-# Created on : On Sat Jan 16 2021 at 15:02:21
-# ======================================================================
-# __author__ = Mohit Anand
-# __copyright__ = Copyright (c) 2021, Mohit Anand, Soil Moisture Project
-# __credits__ = [Mohit Anand, Timo Houben]
-# __license__ = MIT
-# __version__ = 0.0.1
-# __maintainer__ = Mohit Anand
-# __email__ = mohit.anand@ufz.de
-# __status__ = development
-# ======================================================================
 """ The file has been build for miscellaneous functions """
 #
 
@@ -36,7 +22,7 @@ def platform_release():
         'other' if running on other systems
     """
     import platform
-                            
+
     if platform.release() == "3.10.0-1160.15.2.el7.x86_64":
         return "eve"
     else:
@@ -45,10 +31,10 @@ def platform_release():
 
 ## Need to change this a bit
 def clear_results(name, method):
-    """ 
+    """
     Deletes all model output in current working directory.
-    Execute from run script. 
-    
+    Execute from run script.
+
     Parameters:
     -----------
     None
@@ -56,7 +42,7 @@ def clear_results(name, method):
     Returns
     -------
     None
-    
+
     """
     model_name_method_path = os.path.join(models_path, name, method)
     figure_name_method_path = os.path.join(figures_path, name, method)

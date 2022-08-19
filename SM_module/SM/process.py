@@ -1,25 +1,12 @@
-#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# ======================================================================
-# Created by : Mohit Anand
-# Created on : On Sat Jan 16 2021 at 00:20:40
-# ======================================================================
-# __author__ = Mohit Anand
-# __copyright__ = Copyright (c) 2021, Mohit Anand, Soil Moisture Project
-# __credits__ = [Mohit Anand,]
-# __license__ = MIT
-# __version__ = 0.0.1
-# __maintainer__ = Mohit Anand, Julia Schmid, Johannes Boog
-# __email__ = mohit.anand@ufz.de
-# __status__ = development
-# ======================================================================
 """ The file has been build for pre and post processing model results """
 #
 
 from SM.io import read_data
 from SM.cfg import Project
 import fnmatch
-#from SM.training import SpatioTempModel
+
+# from SM.training import SpatioTempModel
 import datetime as dt
 import pandas as pd
 import numpy as np
@@ -49,13 +36,13 @@ def preprocess(data: pd.DataFrame) -> pd.DataFrame:
     return selected_feature_data
 
 
-def preprocess_spatiotempmodel(data:pd.DataFrame) -> pd.DataFrame:
+def preprocess_spatiotempmodel(data: pd.DataFrame) -> pd.DataFrame:
     """Preprocess data for models of class SpatioTempModel.
-    
+
     Paramters
     ---------
     data : pandas.DataFrame
-        Input data with columns: 
+        Input data with columns:
           [;Date_integer;Date;Box;Sensor;Soil_moisture;P_mm;PET_mm;Depth_m;Region;
           UTMWGS84_E[m];UTMWGS84_N[m];Elevation[m];Silt%;Clay%;Sand%;Porosity%;
           dist_to_creek;twi;relief_1;relief_2;relief_3;hillshade;rugg_idx;slope;
@@ -63,25 +50,28 @@ def preprocess_spatiotempmodel(data:pd.DataFrame) -> pd.DataFrame:
     Returns
     -------
     pandas.DataFrame
-    
+
     """
 
-    data = (data.assign(x = data["UTMWGS84_E[m]"],
-                        y = data["UTMWGS84_N[m]"],
-                        z = data["Depth_m"],
-                        dayofyear = pd.to_datetime(data["Date"]).dt.dayofyear)
-                .drop(columns=["UTMWGS84_E[m]", "UTMWGS84_N[m]", "Depth_m",
-                                "Region"])
-                .dropna())
-    
+    data = (
+        data.assign(
+            x=data["UTMWGS84_E[m]"],
+            y=data["UTMWGS84_N[m]"],
+            z=data["Depth_m"],
+            dayofyear=pd.to_datetime(data["Date"]).dt.dayofyear,
+        )
+        .drop(columns=["UTMWGS84_E[m]", "UTMWGS84_N[m]", "Depth_m", "Region"])
+        .dropna()
+    )
+
     # decode yeardate
-    data["dayofyear_sin"] = np.sin(convert_rad(data["dayofyear"]*360/365.25))
-    data["dayofyear_cos"] = np.cos(convert_rad(data["dayofyear"]*360/365.25))
-    
+    data["dayofyear_sin"] = np.sin(convert_rad(data["dayofyear"] * 360 / 365.25))
+    data["dayofyear_cos"] = np.cos(convert_rad(data["dayofyear"] * 360 / 365.25))
+
     # decode aspect
     data["aspect_cos"] = np.cos(convert_rad(data["aspect"]))
     data["aspect_sin"] = np.sin(convert_rad(data["aspect"]))
-    
+
     # subset to base columns (important for subsequent processing) and features
     columns = [
         "Date",
@@ -126,7 +116,7 @@ def create_daily_XY(daily_data):
 def split_data(X, train_size, split_type, random_seed=42):
     """
     Wrapper to split data into a training set and a test set based on: 1) locations (boxes) or 2) randomly.
-    
+
     Parameters
     ---------
     X : pandas.Dataframe
@@ -137,7 +127,7 @@ def split_data(X, train_size, split_type, random_seed=42):
         two options: either  "spatial" for splitting by location (boxes) or "random" for totaly random split in space and time.
     random_seed : integer default: 42
         Value of random seed for creating the random split, useful for creating different splits.
-        
+
     Returns
     -------
     X_train: pandas.Dataframe
@@ -168,7 +158,7 @@ def shuffle_split_data_spatially(X, train_size, random_seed):
     """
     Split data into a training set and test set based on locations (boxes).
     All rows with the same value for 'box' will be either go into training or test set.
-       
+
     Parameters
     ---------
     X : Pandas Dataframe
@@ -177,11 +167,11 @@ def shuffle_split_data_spatially(X, train_size, random_seed):
         Proportion of boxes used for the training set (not measurements!)
     random_seed : integer
         Value of random seed for creating the random split
-        
+
     Returns
     -------
     train_set : Pandas Dataframe
-        Dataset containing the data for training   
+        Dataset containing the data for training
     test_set : Pandas Dataframe
         Dataset containing the data for testing
     """
@@ -216,7 +206,7 @@ def shuffle_split_data_spatially(X, train_size, random_seed):
 def shuffle_split_data_randomly(X, train_size, random_seed):
     """
     Split data into a training set and test set randomly in space and time.
-       
+
     Parameters
     ---------
     X : Pandas Dataframe
@@ -225,11 +215,11 @@ def shuffle_split_data_randomly(X, train_size, random_seed):
         Proportion of measurements used for the training set
     random_seed : integer
         Value of random seed for creating the random split
-        
+
     Returns
     -------
     train_set : Pandas Dataframe
-        Dataset containing the data for training   
+        Dataset containing the data for training
     test_set : Pandas Dataframe
         Dataset containing the data for testing
     """
@@ -257,17 +247,17 @@ def shuffle_split_data_randomly(X, train_size, random_seed):
 def custom_cv_5folds_spatially(X, random_seed=42):
     """
     Creates a generator with indices of spatial split for 5-fold cross validation
-    
+
     Parameters
     ---------
     X : pandas.Dataframe
         Data set to split: Measurements of soil moisture and all features. Should include feature "Box"
     random_seed : integer default: 42
         Value of random seed for creating the random split, useful for creating different splits.
-        
+
     Yields
     -------
-    generator object with np.arrays 
+    generator object with np.arrays
         containing the indices of the five folds (each fold twice)
     """
 
@@ -291,14 +281,14 @@ def custom_cv_5folds_spatially(X, random_seed=42):
 
 def scale_data(X_train, X_test):
     """Scale training and testing data with StandardScaler().
-    
+
     Parameters
     ----------
     X_train : pandas.DataFrame
         Training data.
     X_test : pandas.DataFrame
         Test data.
-    
+
     Return
     ------
     Tuple of scaled data : pandas.DataFrame, scaler
@@ -336,17 +326,17 @@ def preprocess_raster(raster_data):
 
 def preprocess_raster_spatiotempmodel(raster_data):
     """Preprocess raw raster data.
-    
+
     Parameter
     ---------
     raster_data : pandas.DataFrame
         Raw raster data including columns: "coord_x", "coord_y", "z", "mask" and
         features columns.
-    
+
     Returns
     -------
     pandas.DataFrame
-    
+
     """
 
     ## Remove No values data
@@ -374,7 +364,7 @@ def preprocess_raster_spatiotempmodel(raster_data):
 
 
 def raster_select_features(raster_data, date):
-    """Subset raster data to feature columns and, in case, get temporal 
+    """Subset raster data to feature columns and, in case, get temporal
     features from the training data.
 
     Parameters
@@ -424,7 +414,7 @@ def raster_select_features(raster_data, date):
 
 def create_gdf_from_df(df, x="x", y="y"):
     """Create a Geopandas.GeoDataFrame out of a pandas.DataFrame.
-    
+
     Paramters
     ---------
     df : pandas.DataFrame
@@ -433,7 +423,7 @@ def create_gdf_from_df(df, x="x", y="y"):
         Name of the columns for x - coordinates.
     y : str, Default: "y"
         Name of the columns for y - coordinates.
-        
+
     Returns
     -------
     gdf : geopands.GeoDataFrame

@@ -19,7 +19,13 @@ import itertools
 from sklearn.ensemble import RandomForestRegressor
 
 from SM.process import merge_csv_files
-from SM.vis import f_heatmap,temporal_scatter, plot_boxplot, compare_perform_residualmaps, compare_perform_boxplots
+from SM.vis import (
+    f_heatmap,
+    temporal_scatter,
+    plot_boxplot,
+    compare_perform_residualmaps,
+    compare_perform_boxplots,
+)
 from SM.eval import pair_wise_f_test
 from SM.training import SpatioTempModel
 
@@ -53,44 +59,46 @@ features = ["z", "Clay%", "Sand%", "ele_dem"]  # if None, default is used
 name = "SK"
 method_name = "RF"
 tot_n = len(features)
-#Train for multiple iterations of features:
+# Train for multiple iterations of features:
 count = 1
-for f_num in list(range(2,tot_n)):
+for f_num in list(range(2, tot_n)):
     feature_comb = itertools.combinations(features, f_num)
     for sub_f_list in feature_comb:
         print("Testing with features: ")
         print(list(sub_f_list))
         # mandatory variables
-        method = method_name+"_"+str(count)
+        method = method_name + "_" + str(count)
         details = sub_f_list
         st_model = SpatioTempModel(
             estimator=estimator,
             method=method,
-            project_dir = project_dir,
+            project_dir=project_dir,
             name=name,
             details=details,
             features=list(sub_f_list),
-            )
+        )
         # train the model
         st_model.train_test()
         # plot true vs predicted values
         st_model.scatter_plot()
         # plot boxplot of residuals
         st_model.box_plot()
-        #record feature importance
+        # record feature importance
         st_model.box_plot_feature_importance(list(sub_f_list))
-        count +=1
-    
-#Select for the models with the best performance statistic
+        count += 1
+
+# Select for the models with the best performance statistic
 performance_dir = os.path.join(project_dir, "performance_stats")
 output_file = os.path.join(project_dir, "results", "consolidated_performance_stats.csv")
 
 performance_data = merge_csv_files(performance_dir, output_file)
 
-#selecting for low rmse:
-top_6_models = performance_data.sort_values(by=['R2_score'])[:6]
+# selecting for low rmse:
+top_6_models = performance_data.sort_values(by=["R2_score"])[:6]
 
-compare_perform_boxplots(list(top_6_models.UID.values), ['R2_score','RMSE', 'MAE'], project_dir, "SK")
+compare_perform_boxplots(
+    list(top_6_models.UID.values), ["R2_score", "RMSE", "MAE"], project_dir, "SK"
+)
 
 # don't change these lines
 try:
