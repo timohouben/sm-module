@@ -43,8 +43,9 @@ class TrainDailyModel(object):
         project_dir=None,
         training_days=None,
         features=None,
+        in_data_name=None,
+        in_raster_name=None,
     ):
-
         self.CWD = os.getcwd()
         self.model = model
         self.method = method
@@ -52,8 +53,23 @@ class TrainDailyModel(object):
         self.details = details
         self.uid = self.name + "_" + self.method
         self.platform = platform_release()
-        # if project_dir is not None and self.platform is not 'eve':
-        Project.set_project_paths(project_dir, project_type="TrainDailyModel")
+        
+        self.in_data_name=in_data_name
+
+        self.in_raster_name=in_raster_name,
+        self.project_dir=project_dir
+        
+        # # def additional path
+        if self.in_data_name is not None:
+            Project.input_data = self.in_data_name
+        if self.in_raster_name is not None:
+            Project.in_raster_name = self.in_raster_name
+
+        # def paths
+        Project.set_project_paths(
+            project_dir=self.project_dir, project_type="TrainDailyModel"
+        )
+        
         self.save_models_path = os.path.join(
             Project.models_path, self.name, self.method
         )
@@ -62,6 +78,7 @@ class TrainDailyModel(object):
         )
         self.save_results_path = Project.results_path
         self.features = features
+
 
         # read data
         raw_data = read_data()
@@ -207,9 +224,9 @@ class SpatioTempModel(object):
         name,
         details,
         project_dir=None,
-        in_data_name=None,
-        raster_name=None,
         features=None,
+        in_data_name=None,
+        in_raster_name=None,
     ):
 
         self.CWD = os.getcwd()
@@ -220,13 +237,22 @@ class SpatioTempModel(object):
         self.uid = self.name + "_" + self.method
         self.platform = platform_release()
 
+        self.project_dir = project_dir
+        self.in_data_name = in_data_name
+        self.in_raster_name = in_raster_name
+
+        
+        # # def additional path
+        if self.in_data_name is not None:
+            Project.input_data = self.in_data_name
+        if self.in_raster_name is not None:
+            Project.in_raster_name = self.in_raster_name
+
         # def paths
         Project.set_project_paths(
-            project_dir=project_dir, project_type="SpatioTempModel"
+            project_dir=self.project_dir, project_type="SpatioTempModel"
         )
-        # def additional path
-        if in_data_name is not None and raster_name is not None:
-            Project.set_inputdata_spatiotempmodel(in_data_name, raster_name)
+
 
         self.save_models_path = os.path.join(
             Project.models_path, self.name, self.method
