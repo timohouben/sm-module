@@ -25,6 +25,7 @@ def preprocess(data: pd.DataFrame) -> pd.DataFrame:
     data["aspect_sin"] = np.sin(convert_rad(data["aspect"]))
 
     # We prepare x and y as feature, they might not be used but just are prepared
+    
     data.geometry
     data["x"] = data.geometry.x
     data["y"] = data.geometry.y
