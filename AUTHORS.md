@@ -1,9 +1,9 @@
-# Main authors
+# Main authors (equal contributions)
 
-- Johannes Boog
 - Timo Houben
 - Swamini Khurana
-- Mohit Anand
-- Julia Schmid
+- Johannes Boog
 - Pia Ebeling
+- Julia Schmid
+- Mohit Anand
 - Lennart Schmidt
