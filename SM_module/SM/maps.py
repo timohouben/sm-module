@@ -183,7 +183,6 @@ class SpatialMap(object):
 
             #cbar = plt.colorbar(collection, ax=axes[-1], extend="both")
             #cbar.ax.set_ylabel("Soil moisture [-]", fontsize=14)
-            return axes
 
         plt.tight_layout()
 
