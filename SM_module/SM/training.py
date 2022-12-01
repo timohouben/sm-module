@@ -435,9 +435,6 @@ class SpatioTempModel(object):
         self.y_pred_list.extend(y_model_pred)
         self.y_test_list.extend(y_test)
 
-        # save model
-        file_path = os.path.join(self.save_models_path, self.uid)
-        save_model(file_path, self.model, scaler)
 
         # write results into performance_stats directory
         performance_stats_path = os.path.join(
@@ -472,6 +469,10 @@ class SpatioTempModel(object):
             self.model, X_test_scaled, y_test, n_repeats=15, random_state=42  # 0,
         )
 
+        # save model
+        file_path = os.path.join(self.save_models_path, self.uid)
+        save_model(file_path, self.model, scaler)
+    
     #        row = []
     #        for i in self.r_train.importances_mean.argsort()[::-1]:
     #            if self.r_train.importances_mean[i] - 2 * self.r_train.importances_std[i] > 0: # what happens here? (JS)

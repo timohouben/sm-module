@@ -59,7 +59,7 @@ class SpatialMap(object):
                 self.plot_sensor_locs = False
                 print("Found no files with sensor locations.")
 
-    def plot_maps(self, grid=True):
+    def plot_maps(self, grid=True, orientation="horizontal", dpi=200):
         """Plot predicted raster data as maps and save as PNG.
 
         Parameter
@@ -100,49 +100,98 @@ class SpatialMap(object):
         depth_list = pred_gdf["z"].unique()
         n_depth = len(depth_list)
 
-        # create plot grid and set color scheme
-        fig, axes = plt.subplots(
-            1, n_depth, figsize=(3 * n_depth, 6), sharey=True, sharex=True
-        )
-        # cmap = 'cviridis_r'
-        cmap = mpl.cm.get_cmap("viridis")
-        cmap = cmap.reversed()
-        norm = mpl.colors.Normalize(vmin=0.01, vmax=0.45)
-        cmap.set_under("white")
-        cmap.set_over("black")
-        fmt = lambda x, pos: "{:.0f}".format(x)
 
-        # plot depth specific maps
-        for i in range(n_depth):
+        if orientation == "horizontal":
 
-            gdf_d = pred_gdf[pred_gdf["z"] == depth_list[i]]
+            fig, axes = plt.subplots(
+                1, n_depth, figsize=(3 * n_depth, 6), sharey=True, sharex=True
+            )
 
-            gdf_d_plot = gdf_d.plot(ax=axes[i], column="pred", cmap=cmap, norm=norm)
-            if self.plot_sensor_locs == True:
-                daily_gdf_d = daily_gdf[daily_gdf["Depth_m"] == depth_list[i]]
-                daily_gdf_d.plot(
-                    ax=axes[i],
-                    column="Soil_moisture",
-                    cmap=cmap,
-                    norm=norm,
-                    edgecolor="k",
-                )
+            # cmap = 'cviridis_r'
+            cmap = mpl.cm.get_cmap("viridis")
+            cmap = cmap.reversed()
+            norm = mpl.colors.Normalize(vmin=0.01, vmax=0.45)
+            cmap.set_under("white")
+            cmap.set_over("black")
+            fmt = lambda x, pos: "{:.0f}".format(x)
 
-            axes[i].yaxis.set_major_formatter(mpl.ticker.FuncFormatter(fmt))
-            axes[i].xaxis.set_major_formatter(mpl.ticker.FuncFormatter(fmt))
-            axes[i].set_title("Depth [m]: " + str(depth_list[i]), pad=20)
-            if grid == True:
-                axes[i].grid(color="grey", linestyle="--")
-            collection = gdf_d_plot.collections[0]
+            # plot depth specific maps
+            for i in range(n_depth):
 
-        cbar = plt.colorbar(collection, ax=axes[-1], extend="both")
-        cbar.ax.set_ylabel("Soil moisture [-]", fontsize=14)
+                gdf_d = pred_gdf[pred_gdf["z"] == depth_list[i]]
+
+                gdf_d_plot = gdf_d.plot(ax=axes[i], column="pred", cmap=cmap, norm=norm)
+                if self.plot_sensor_locs == True:
+                    daily_gdf_d = daily_gdf[daily_gdf["Depth_m"] == depth_list[i]]
+                    daily_gdf_d.plot(
+                        ax=axes[i],
+                        column="Soil_moisture",
+                        cmap=cmap,
+                        norm=norm,
+                        edgecolor="k",
+                    )
+
+                axes[i].yaxis.set_major_formatter(mpl.ticker.FuncFormatter(fmt))
+                axes[i].xaxis.set_major_formatter(mpl.ticker.FuncFormatter(fmt))
+                axes[i].set_title("Depth [m]: " + str(depth_list[i]), pad=20)
+                if grid == True:
+                    axes[i].grid(color="grey", linestyle="--")
+                collection = gdf_d_plot.collections[0]
+
+            cbar = plt.colorbar(collection, ax=axes[-1], extend="both")
+            cbar.ax.set_ylabel("Soil moisture [-]", fontsize=14)
+
+        if orientation == "vertical":
+        
+            # create plot grid and set color scheme
+            fig, axes = plt.subplots(
+                n_depth, 1, figsize=(4, 7 * n_depth), sharey=True, sharex=True
+            )
+            
+            # cmap = 'cviridis_r'
+            cmap = mpl.cm.get_cmap("viridis")
+            cmap = cmap.reversed()
+            norm = mpl.colors.Normalize(vmin=0.01, vmax=0.45)
+            cmap.set_under("white")
+            cmap.set_over("black")
+            fmt = lambda x, pos: "{:.0f}".format(x)
+
+            # plot depth specific maps
+            for i in range(n_depth):
+                # plt.tick_params(left = False, right = False , labelleft = False ,
+                #         labelbottom = False, bottom = False)
+                axes[i].set_axis_off()
+                gdf_d = pred_gdf[pred_gdf["z"] == depth_list[i]]
+
+                gdf_d_plot = gdf_d.plot(ax=axes[i], column="pred", cmap=cmap, norm=norm)
+                if self.plot_sensor_locs == True:
+                    daily_gdf_d = daily_gdf[daily_gdf["Depth_m"] == depth_list[i]]
+                    daily_gdf_d.plot(
+                        ax=axes[i],
+                        column="Soil_moisture",
+                #        cmap=cmap,
+                        norm=norm,
+                        edgecolor="k",
+                        cax = None
+                    )
+                #axes[i].yaxis.set_major_formatter(mpl.ticker.FuncFormatter(fmt))
+                #axes[i].xaxis.set_major_formatter(mpl.ticker.FuncFormatter(fmt))
+                axes[i].set_title("Depth [m]: " + str(depth_list[i]), pad=20)
+                if grid == True:
+                    axes[i].grid(color="grey", linestyle="--")
+                collection = gdf_d_plot.collections[0]
+
+            #cbar = plt.colorbar(collection, ax=axes[-1], extend="both")
+            #cbar.ax.set_ylabel("Soil moisture [-]", fontsize=14)
+            return axes
+
+        plt.tight_layout()
 
         # save maps as png
         f_path = os.path.join(
             self.save_figures_path, self.uid + "_" + self.date + "_3d.png"
         )
-        plt.savefig(f_path)
+        plt.savefig(f_path, dpi=dpi)
 
     def _find_date_model_fname(self, date, model_path):
 
