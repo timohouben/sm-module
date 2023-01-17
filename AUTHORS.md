@@ -1,6 +1,6 @@
 # Main authors (equal contributions)
 
-- Timo Houben
+- Timo Houben <timo.houben@ufz.de>
 - Swamini Khurana
 - Johannes Boog
 - Pia Ebeling

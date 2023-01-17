@@ -11,7 +11,6 @@ class Project(object):
     features to be used, file paths."""
 
     # Default features, we can add or remove features here (and below)
-    # TODO(JB): - include rugg_idx? (TBC)
     features_default = [
         "Date_integer",
         "z",
@@ -151,21 +150,3 @@ class Project(object):
                 project_dir
             )
         )
-
-    # @classmethod
-    # def set_inputdata(cls, in_data_name, raster_name):
-    #     """Temporary solution: overwrite path to input data and input raster.
-
-    #     in_data_name : str
-    #         Name of the input data file.
-    #     raster_name : str
-    #         Name of the input rasterfile.
-    #     """
-    #     if cls.platform is "eve":
-    #         cls.data_path = os.path.join(cls.project_dir, in_data_name)
-    #         cls.raster_path = os.path.join(cls.project_dir, raster_name)
-    #     else:
-    #         cls.data_path = os.path.join(cls.project_dir, "model_input", in_data_name)
-    #         cls.raster_path = os.path.join(
-    #             cls.project_dir, "model_input", raster_name
-    #         )
