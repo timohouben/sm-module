@@ -1,4 +1,4 @@
-Soil moisture module for digital soil moisture mapping.
+# Soil moisture module for digital soil moisture mapping.
 
 The module was developed in the study of Houben et al. (2023) (to be) published in Vadose Zone Journal:
 
