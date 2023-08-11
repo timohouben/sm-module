@@ -11,13 +11,14 @@ PROJECT_URLS = {
 }
 
 
-from setuptools import setup
+from setuptools import setup, find_packages
 
 setup(
     name=DISTNAME,
     version=VERSION,
     description=DESCRIPTION,
-    authors=AUTHORS,
+    author=AUTHORS,
     author_email=EMAIL,
+    packages=find_packages(),
     license=LICENSE,
 )

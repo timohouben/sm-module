@@ -1,8 +1,3 @@
-# create this environment with python 3.7 with e.g. the following command:
-# conda create -n ml-project-sm python=3.7
-# Install required packaged afterwards with this command:
-# conda env update -n ml-project-sm --file ml-project-sm.yml
-
 name: ml-project-sm
 channels:
   - conda-forge
