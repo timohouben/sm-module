@@ -258,8 +258,8 @@ def custom_cv_5folds_spatially(X, random_seed=42):
 
     Yields
     -------
-    generator object with np.arrays
-        containing the indices of the five folds (each fold twice)
+    generator object with np.arrays(idx_training, idx_testing)
+        containing the indices for training and test sets of the five folds
     """
 
     np.random.seed(random_seed)
@@ -275,8 +275,9 @@ def custom_cv_5folds_spatially(X, random_seed=42):
     i = 0
     while i < 5:
         # split entire data set
-        idx = X.index.values[X.Box.isin(split_boxes[i])]
-        yield idx, idx
+        idx_test = X.index.values[X.Box.isin(split_boxes[i])]
+        idx_train = X.index.values[~X.Box.isin(split_boxes[i])]
+        yield idx_train, idx_test
         i += 1
 
 
