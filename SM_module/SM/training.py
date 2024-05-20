@@ -357,6 +357,7 @@ class SpatioTempModel(object):
             # train on training set, predict on test set
             tuner.fit(X_train, y_train)
             y_model_pred = tuner.predict(X_test)
+            y_model_pred_train = tuner.predict(X_train)
 
             # write tuning results of all cv-folds to disk
             tuner_results = tuner.cv_results_
@@ -393,13 +394,22 @@ class SpatioTempModel(object):
             self.model.fit(X_train_scaled, y_train)
             # test
             y_model_pred = self.model.predict(X_test_scaled)
+            y_model_pred_train = self.model.predict(X_train_scaled)
 
-        # compute model performance stats
+
+        # compute model performance stats for test set
         r2 = r2_score(y_test, y_model_pred)
         rmse = mean_squared_error(y_test, y_model_pred, squared=False)
         mae = mean_absolute_error(y_test, y_model_pred)
         me = mean_error(y_true=y_test, y_pred=y_model_pred)
         epsilon = explained_variance_score(y_true=y_test, y_pred=y_model_pred)
+
+        # compute model performance stats for training set
+        r2_train = r2_score(y_train, y_model_pred_train)
+        rmse_train = mean_squared_error(y_train, y_model_pred_train, squared=False)
+        mae_train = mean_absolute_error(y_train, y_model_pred_train)
+        me_train = mean_error(y_true=y_train, y_pred=y_model_pred_train)
+        epsilon_train = explained_variance_score(y_true=y_train, y_pred=y_model_pred_train)
 
         # add results
         header = [
@@ -411,6 +421,11 @@ class SpatioTempModel(object):
             "RMSE",
             "ME",
             "Exp_variance",
+            "R2_score_train",
+            "MAE_train",
+            "RMSE_train",
+            "ME_train",
+            "Exp_variance_train",
         ]
         self.results = pd.DataFrame(
             [
@@ -426,6 +441,11 @@ class SpatioTempModel(object):
                             rmse,
                             me,
                             epsilon,
+                            r2_train,
+                            mae_train,
+                            rmse_train,
+                            me_train,
+                            epsilon_train,
                         ],
                     )
                 )

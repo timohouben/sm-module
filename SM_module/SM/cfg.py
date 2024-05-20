@@ -27,7 +27,7 @@ class Project(object):
         "twi",
         "P_mm",
         "PET_mm",
-        "Temp",
+#        "Temp",
         "x",
         "y",
         "air_temp",

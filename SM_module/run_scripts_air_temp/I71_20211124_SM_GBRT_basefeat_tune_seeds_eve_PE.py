@@ -34,7 +34,7 @@ date = "2012-09-16"
 # If none or if running on EVE this variable will be neglected and standard EVE
 # data paths will be used
 #project_dir = "C:/Users/ebelingp/Dateien/PhDTeam4DataScience/MLproject/ml-cafe_project_soilmoisture/data/"
-project_dir = "/gpfs1/work/ebelingp/ml-cafe_project_soilmoisture/data/"
+project_dir = "/work/houben/20240322-ml-cafe/rerun-air_temp"
 # optional variables: if you want to read map predictions from file and use this
 # for plotting
 # csv_file_path = "FULL/PATH/TO/A/CSV/FILE/FOR/MAP/CREATION.csv"
