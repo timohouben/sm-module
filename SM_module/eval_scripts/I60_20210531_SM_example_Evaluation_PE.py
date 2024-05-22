@@ -16,7 +16,7 @@ from SM.vis import compare_perform_boxplots
 # SETTINGS FOR COMPARISON
 # ------------------------------------------------------------------------------
 # mandatory variables
-project_dir = "C:/Users/ebelingp/Dateien/PhDTeam4DataScience/MLproject/ml-cafe_project_soilmoisture/data/"
+project_dir = "/work/houben/20240322-ml-cafe/rerun-air_temp"
 # model result files to compare
 filenames = ["PiaEbeling_RF.csv", "PiaEbeling_RF_dummy.csv", "PiaEbeling_RF_dummy2.csv"]
 # measures to compare

@@ -28,7 +28,7 @@ method = "GBRT_seed_12000"
 details = "tuned_model"
 # Specify the path to the project directory containing the model to load
 # subfolder called 'models' and where results will be saved
-project_dir = "C:/Users/ebelingp/Dateien/PhDTeam4DataScience/MLproject/ml-cafe_project_soilmoisture/data/"
+project_dir = "/work/houben/20240322-ml-cafe/rerun-air_temp"
 # specify the model and its parameters
 estimator = GradientBoostingRegressor()
 # define features to use

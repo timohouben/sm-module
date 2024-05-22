@@ -28,7 +28,7 @@ method = "RF"
 details = "tuned_model"
 # Specify the path to the project directory containing the model to load
 # subfolder called 'models' and where results will be saved
-project_dir = "/home/boog/ufz/12_mlcafe_prj_dsmm/data/I69-fit_rf"
+project_dir = "/work/houben/20240322-ml-cafe/rerun-air_temp"
 # specify the model and its parameters
 estimator = RandomForestRegressor()
 # define features to use

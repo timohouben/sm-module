@@ -15,11 +15,11 @@ from SM.io import load_model
 # ------------------------------------------------------------------------------
 # mandatory variables
 name = "TimoHouben"
-method = "NN_BEST_54_12000"
+method = "54_12000"
 details = ""
 # Specify the path to the project directory containing the model to load
 # subfolder called 'models' and where results will be saved
-project_dir = "/work/houben/nn-daily"
+project_dir = "/work/houben/20240322-ml-cafe/rerun-air_temp"
 # specify the model and its parameters
 estimator = MLPRegressor()
 # define features to use

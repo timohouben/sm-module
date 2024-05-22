@@ -38,9 +38,17 @@ project_dir = '/work/houben/20240322-ml-cafe/rerun-air_temp'
 name = "SK"
 details = "seed"
 
-#Train for multiple seeds:
+# hyperparameters for training
+tuning_hyperparameters = {
+    "kernel": ["linear", "rbf"],
+    "epsilon": [0.01, 0.1, 0.5, 1.0],
+    "C": [0.1, 1.0, 10, 100],
+    "gamma": ["scale", "auto", 0.01, 0.1, 1, 10]  # 'scale' and 'auto' are included for RBF kernel
+}
 
-for i in [1000,5000,10000,25000]:
+#Train for multiple seeds:
+#for i in [1000,5000,10000,25000]:
+for i in [5000]:
     estimator = SVR(C=0.1, epsilon = 0.05, kernel = 'rbf', max_iter = i)
     method_name= "iter_"+str(i)
     for s in [42, 1337, 7, 420, 12000]:
@@ -53,7 +61,9 @@ for i in [1000,5000,10000,25000]:
         	details=details
         	)
         # train the model
-        st_model.train_test(splitseed=s)
+        st_model.train_test(train_with_cv=True,
+                            tuning_hyperparameters=tuning_hyperparameters,
+                            splitseed=s)
         # plot true vs predicted values
         st_model.scatter_plot()
 	    # plot boxplot of residuals
