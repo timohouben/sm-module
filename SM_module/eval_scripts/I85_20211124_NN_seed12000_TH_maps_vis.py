@@ -70,4 +70,4 @@ for date in dates:
     # plot the map
     map_3d.plot_maps(grid=False)
     # save the predicted map as csv file
-    # map_3d.save_csv()
+    map_3d.save_csv()

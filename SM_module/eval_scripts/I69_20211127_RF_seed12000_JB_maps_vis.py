@@ -23,9 +23,9 @@ from SM.io import load_model
 # USER SETTINGS
 # ------------------------------------------------------------------------------
 # mandatory variables
-name = "stmodel_seeds__default_12000"
-method = "RF"
-details = "tuned_model"
+name = "JB_12000"
+method = "RF_seed_"
+details = ""
 # Specify the path to the project directory containing the model to load
 # subfolder called 'models' and where results will be saved
 project_dir = "/work/houben/20240322-ml-cafe/rerun-air_temp"
@@ -48,9 +48,8 @@ st_model = SpatioTempModel(
 )
 
 # load the model and save it as attribute of the 
-st_model.model, _ = load_model(
-    os.path.join(project_dir, "models", "stmodel_seeds__default_12000",
-                "RF", "stmodel_seeds__default_12000_RF"))
+st_model.model, _ = load_model(fname)
+
 
 # ------------------------------------------------------------------------------
 # MAP CREATION
@@ -70,4 +69,4 @@ for date in dates:
     # plot the map
     map_3d.plot_maps(grid=False)
     # save the predicted map as csv file
-    #map_3d.save_csv()
+    map_3d.save_csv()
