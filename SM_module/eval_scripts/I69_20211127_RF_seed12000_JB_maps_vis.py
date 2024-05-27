@@ -12,6 +12,7 @@ import os
 os.chdir("..")
 
 from sklearn.ensemble import RandomForestRegressor
+import pandas as pd
 
 # own modules
 from SM.maps import SpatialMap
@@ -56,11 +57,16 @@ st_model.model, _ = load_model(fname)
 # ------------------------------------------------------------------------------
 # create maps for several dates
 # date for which the maps should be predicted and plotted
-dates = ["2012-09-16", "2012-10-16", "2012-11-16",
-         "2012-12-16", "2013-01-16", "2013-02-16",
-         "2013-03-16", "2013-04-16", "2013-05-16",
-         "2013-06-16", "2013-07-16", "2013-08-16",
-         "2013-09-16","2013-10-16"]
+# dates = ["2012-09-16", "2012-10-16", "2012-11-16",
+#          "2012-12-16", "2013-01-16", "2013-02-16",
+#          "2013-03-16", "2013-04-16", "2013-05-16",
+#          "2013-06-16", "2013-07-16", "2013-08-16",
+#          "2013-09-16","2013-10-16"]
+
+date_from = '2012-09-16'
+date_to = '2013-11-14'
+dates = pd.date_range(start=date_from, end=date_to, freq='M')
+
 for date in dates:
     print("Predicting map for method", method, "date", date)
 
