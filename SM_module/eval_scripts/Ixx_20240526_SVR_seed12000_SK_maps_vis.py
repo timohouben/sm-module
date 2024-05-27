@@ -67,6 +67,8 @@ st_model.model, _ = load_model(fname)
 date_from = '2012-09-16'
 date_to = '2013-11-14'
 dates = pd.date_range(start=date_from, end=date_to, freq='M')
+# convert to string without time
+dates = dates.strftime('%Y-%m-%d')
 
 for date in dates:
     try:
