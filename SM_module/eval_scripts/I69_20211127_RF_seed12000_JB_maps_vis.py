@@ -68,11 +68,13 @@ date_to = '2013-11-14'
 dates = pd.date_range(start=date_from, end=date_to, freq='M')
 
 for date in dates:
-    print("Predicting map for method", method, "date", date)
-
-    # predict the map
-    map_3d = SpatialMap(name=name, method=method, date=date)
-    # plot the map
-    map_3d.plot_maps(grid=False)
-    # save the predicted map as csv file
-    map_3d.save_csv()
+    try:
+        print("Predicting map for method", method, "date", date)
+        # predict the map
+        map_3d = SpatialMap(name=name, method=method, date=date)
+        # plot the map
+        map_3d.plot_maps(grid=False)
+        # save the predicted map as csv file
+        map_3d.save_csv()
+    except:
+        print("Error for date", date)

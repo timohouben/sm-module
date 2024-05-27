@@ -403,7 +403,7 @@ def raster_select_features(raster_data, date):
         X_traintest["Date"] == date, feats_not_in_raster
     ].drop_duplicates()
     if len(X_feats) == 0:
-        raise ValueError("The provided Data is not in the data.")
+        raise ValueError("The provided Date is not in the data.")
 
     # add to raster
     for i, value in enumerate(X_feats.values[0]):
