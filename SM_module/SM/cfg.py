@@ -27,9 +27,10 @@ class Project(object):
         "twi",
         "P_mm",
         "PET_mm",
-        "Temp",
+#        "Temp",
         "x",
         "y",
+        "air_temp",
     ]
 
     features_select = features_default
@@ -89,7 +90,7 @@ class Project(object):
         else:  # if cls.project_type is "spatiSpatioTempModelotemp":
 
             if cls.input_data == "default":
-                cls.input_data = "SCH_smmeteotxtdemtemp_20200919_Master.csv"
+                cls.input_data = "SCH_smmeteotxtdemtempairtemp_20240412_Master.csv"
             if cls.input_raster == "default":
                 cls.input_raster = "SCH_txtdem_20210412_static_raster_Master.csv"
 

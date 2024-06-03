@@ -27,7 +27,7 @@ cfg_d = {"name" : 'JB',
          "details" : 'fitting_of_spatiotempmodel_with_rf_seeds',
          # date for which the map should be predicted and plotted
          "dates" : ['2012-09-16', '2013-07-16', '2013-04-16', '2013-01-16'],
-         "project_dir" : "/home/boog/ufz/12_mlcafe_prj_dsmm/data/I69-fit_rf",
+         "project_dir" : "/work/houben/20240322-ml-cafe/rerun-air_temp",
          "estimator" : RandomForestRegressor(random_state=42, n_estimators=2)}
 
 # define features to override default features

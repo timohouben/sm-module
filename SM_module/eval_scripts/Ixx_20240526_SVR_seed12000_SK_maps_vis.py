@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # ------------------------------------------------------------------------------
-# Authors:  PIA EBELING <pia.ebeling@ufz.de>
+# Authors:  Timo Houben <timo.houben@ufz.de>
 # ------------------------------------------------------------------------------
 import os
 from sklearn.neural_network import MLPRegressor
@@ -15,9 +15,9 @@ from SM.io import load_model
 # USER SETTINGS
 # ------------------------------------------------------------------------------
 # mandatory variables
-name = "TimoHouben"
-method = "54_12000"
-details = ""
+name = "SK"
+method = "iter_5000_seed_12000"
+details = "seed"
 # Specify the path to the project directory containing the model to load
 # subfolder called 'models' and where results will be saved
 project_dir = "/work/houben/20240322-ml-cafe/rerun-air_temp"
@@ -33,7 +33,7 @@ fname = os.path.join(project_dir, "models", name, method, name + "_" + method)
 st_model = SpatioTempModel(
     estimator=estimator,
     method=method,
-    name=name,
+    name=name,  
     project_dir=project_dir,
     details=details,
     features=features,

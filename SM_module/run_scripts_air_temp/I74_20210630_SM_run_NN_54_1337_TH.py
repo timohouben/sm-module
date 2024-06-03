@@ -27,7 +27,7 @@ from SM.training import SpatioTempModel
 # ------------------------------------------------------------------------------
 # mandatory variables
 name = "TimoHouben"
-method = str(sys.argv[1])
+method = '54_1337'
 details = ""
 # date for which the map should be predicted and plotted
 date = "2012-21-16"
@@ -37,7 +37,7 @@ date = "2012-21-16"
 # subfolder called 'model_input'.
 # If none or if running on EVE this variable will be neglected and standard EVE
 # data paths will be used
-project_dir = "/work/houben/nn-daily"
+project_dir = "/work/houben/20240322-ml-cafe/rerun-air_temp"
 # optional variables: if you want to read map predictions from file and use this
 # for plotting
 # csv_file_path = "FULL/PATH/TO/A/CSV/FILE/FOR/MAP/CREATION.csv"
@@ -146,7 +146,7 @@ st_model = SpatioTempModel(
 # train the model
 print("Started training...")
 # seeds: 1337, 7, 420, 12000
-seed = 420
+seed = 1337
 st_model.train_test(train_with_cv=True, tuning_hyperparameters=hyperparameters, splitseed=seed)
 #st_model.train_test(train_with_cv=True, splitseed=12000)
 # make scatter plot

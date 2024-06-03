@@ -22,46 +22,113 @@ from SM.training import SpatioTempModel
 # ------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------
 # COMMENTS
-# taking the best confguration from hyperparameter tuning from model 54
-# fitting a model for every seed, 7, 42, 420, 1337, 12000
+# using the same configuration as model 51
+# searching for best Nn architecture
 # ------------------------------------------------------------------------------
 # mandatory variables
 name = "TimoHouben"
-method = str(sys.argv[1])
-details = "best_nov22"
+method = '54_42'
+details = ""
 # date for which the map should be predicted and plotted
-dates = ["2012-21-16", "2012-9-16"]
+date = "2012-21-16"
 # copy run script to directory
 # ------------------------------------------------------------------------------
 # Specify the path to the project directory containing the input data in a
 # subfolder called 'model_input'.
 # If none or if running on EVE this variable will be neglected and standard EVE
 # data paths will be used
-project_dir = "/work/houben/nn-daily"
+project_dir = "/work/houben/20240322-ml-cafe/rerun-air_temp"
 # optional variables: if you want to read map predictions from file and use this
 # for plotting
 # csv_file_path = "FULL/PATH/TO/A/CSV/FILE/FOR/MAP/CREATION.csv"
 # specify the model and its parameters
+hidden_layer_sizes = (9, 7, 4)
+# config 1
 mplreg = MLPRegressor(
-                    activation="logistic",
-                    alpha=1e-05,
-                    early_stopping=True,
-                    hidden_layer_sizes=(50, 25, 12, 7, 4),
-                    learning_rate="adaptive",
-                    learning_rate_init=1e-05,
-                    max_iter=1000,
+                    activation='relu',
+                    alpha=0.0001,
+                    batch_size='auto',
+                    beta_1=0.9,
+                    beta_2=0.999,
+                    early_stopping=False,
+                    epsilon=1e-08,
+                    hidden_layer_sizes=hidden_layer_sizes,
+                    learning_rate='constant',
+                    learning_rate_init=0.001,
+                    max_fun=15000,
+                    max_iter=200,
                     momentum=0.9,
                     n_iter_no_change=10,
                     nesterovs_momentum=True,
+                    power_t=0.5,
                     random_state=42,
                     shuffle=True,
-                    solver="adam",
-                    tol=1e-06,
+                    solver='adam',
+                    tol=0.0001,
                     validation_fraction=0.1,
-                    verbose=True
+                    verbose=True,
+                    warm_start=False,
                     )
 # define features to use
 features = None  # if None, default is used
+
+
+hidden_layer_sizes = [
+    (5, 2),
+    (7, 4),
+    (9, 7, 4),
+    (9, 7, 3),
+    (9, 7, 2),
+    (12, 5, 2),
+    (25, 12, 5, 2),
+    (25, 12, 7, 4),
+    (50, 25, 12, 7, 4),
+    (50, 25, 12, 6, 2),
+    (50, 40, 30, 10, 7, 4),
+    (50, 40, 30, 10, 4, 2),
+    (50, 40, 30, 10, 5, 3),
+    (50, 40, 30, 10, 7, 4),
+    (25, 50, 50, 10, 7, 4),
+    (25, 50, 50, 10, 9, 2),
+    (25, 50, 50, 10, 9, 2),
+    (15, 20, 20, 10, 9, 2),
+    (15, 20, 20, 10, 7, 4),
+    (15, 20, 20, 5, 7, 3),
+    (15, 20, 20, 15, 7, 3),
+    (5, 15, 20, 30, 30, 15, 7, 3),
+    (5, 15, 20, 30, 30, 15, 9, 4),
+]
+
+
+
+# hyperparameter tuning
+hyperparameters={
+                    #'solver':['lbfgs','sgd', 'adam'],
+                    'solver':['adam'],
+                    #'hidden_layer_sizes':[(100,),(100, 50, 4), (7, 4), (9, 7, 4)],
+                    #'hidden_layer_sizes':[(100, 50, 4), (7, 4), (9, 7, 4)],
+                    'hidden_layer_sizes':hidden_layer_sizes,
+                    #'activation':['relu','logistic', 'tanh'],
+                    'activation':['logistic'],
+                    #'activation':['logistic'],
+                    #'alpha':[0.0001, 0.001, 0.01, 0.1],
+                    'alpha':[0.00001, 0.0001],
+                    #'early_stopping':[True,False],
+                    'early_stopping':[True],
+                    'learning_rate':['adaptive'],
+                    'learning_rate_init':[0.00001],
+                    'max_iter':[1000],
+                    'momentum':[0.9],
+                    'n_iter_no_change':[10],
+                    'nesterovs_momentum':[True],
+                    'random_state':[42],
+                    'shuffle':[True],
+                    #'tol':[0.0001,0.001, 0.00001],
+                    'tol':[0.000001],
+                    'validation_fraction':[0.1],
+                    'verbose':[True],                       
+                    }
+# missing features: air temp or soil temp?, rugg_idx
 # ------------------------------------------------------------------------------
 # TRAINING
 # ------------------------------------------------------------------------------
@@ -78,9 +145,10 @@ st_model = SpatioTempModel(
 )
 # train the model
 print("Started training...")
-# seeds: 7, 42, 1337, 420, 12000
-seed = 12000
-st_model.train_test(train_with_cv=False, splitseed=seed)
+# seeds: 1337, 7, 420, 12000
+seed = 42
+st_model.train_test(train_with_cv=True, tuning_hyperparameters=hyperparameters, splitseed=seed)
+#st_model.train_test(train_with_cv=True, splitseed=12000)
 # make scatter plot
 st_model.scatter_plot()
 # show residuals
@@ -97,22 +165,6 @@ except NameError:
     pass
 
 print("Training finished...")
-
-# ------------------------------------------------------------------------------
-# MAP CREATION
-# ------------------------------------------------------------------------------
-# create instance of SpatialMap with or WITHOUT csv_file
-# If csv_file != None it will load the respective file and plot the map based on it
-# If csv_file == None it will take the trained model.
-# map_3d = SpatialMap(name = name, method = method, date = date, csv_file=csv_file)
-
-for date in dates:
-    map_3d = SpatialMap(name=name, method=method, date=date)
-    # plot the map
-    map_3d.plot_maps(grid=False)
-    # save the predicted map as csv file
-    map_3d.save_csv()
-
 
 # ------------------------------------------------------------------------------
 # Analysis

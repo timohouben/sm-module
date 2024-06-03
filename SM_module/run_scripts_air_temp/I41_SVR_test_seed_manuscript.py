@@ -23,7 +23,7 @@ date = "2012-21-16"
 # subfolder calles 'model_input'.
 # If none or if running on EVE this variable will be neglected and standard EVE
 # data paths will be used
-project_dir = '/gpfs1/work/khurana/ml_cafe_proj'
+project_dir = '/work/houben/20240322-ml-cafe/rerun-air_temp'
 # optional variables: if you want to read map predictions from file and use this
 # for plotting
 # csv_file_path = "FULL/PATH/TO/A/CSV/FILE/FOR/MAP/CREATION.csv"
@@ -38,31 +38,41 @@ project_dir = '/gpfs1/work/khurana/ml_cafe_proj'
 name = "SK"
 details = "seed"
 
-#Train for multiple seeds:
+# hyperparameters for training
+tuning_hyperparameters = {
+    "kernel": ["linear", "rbf"],
+    "epsilon": [0.01, 0.1, 0.5, 1.0],
+    "C": [0.1, 1.0, 10, 100],
+    "gamma": ["scale", "auto", 0.01, 0.1, 1, 10]  # 'scale' and 'auto' are included for RBF kernel
+}
 
-for i in [1000,5000,10000,25000]:
-	estimator = SVR(C=0.1, epsilon = 0.05, kernel = 'rbf', max_iter = i)
-	method_name= "iter_"+str(i)
-	for s in [42, 1337, 7, 420, 12000]:
-	    method = method_name+"_seed_"+str(s)
-	    st_model = SpatioTempModel(
+#Train for multiple seeds:
+#for i in [1000,5000,10000,25000]:
+for i in [5000]:
+    estimator = SVR(C=0.1, epsilon = 0.05, kernel = 'rbf', max_iter = i)
+    method_name= "iter_"+str(i)
+    for s in [42, 1337, 7, 420, 12000]:
+        method = method_name+"_seed_"+str(s)
+        st_model = SpatioTempModel(
 	        estimator=estimator,
         	method=method,
 	        project_dir = project_dir,
 	        name=name,
         	details=details
         	)
-	    # train the model
-	    st_model.train_test(splitseed=s)
-	    # plot true vs predicted values
-	    st_model.scatter_plot()
+        # train the model
+        st_model.train_test(train_with_cv=True,
+                            tuning_hyperparameters=tuning_hyperparameters,
+                            splitseed=s)
+        # plot true vs predicted values
+        st_model.scatter_plot()
 	    # plot boxplot of residuals
-	    st_model.box_plot()
+        st_model.box_plot()
 	    #record feature importance
-	    st_model.box_plot_feature_importance()
+        st_model.box_plot_feature_importance()
 	    # plot true vs predicted values
-	    st_model.scatter_plot()
+        st_model.scatter_plot()
 	    # plot boxplot of residuals
-	    st_model.box_plot()
+        st_model.box_plot()
 	    #record feature importance
-	    st_model.box_plot_feature_importance()
+        st_model.box_plot_feature_importance()
