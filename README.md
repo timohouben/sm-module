@@ -1,8 +1,10 @@
 # Soil moisture module for digital soil moisture mapping.
 
-The module was developed in the study of Houben et al. (2023) (to be) published in Vadose Zone Journal:
+The module was developed in the study of Houben et al. (2025) published in Vadose Zone Journal:
 
-Houben, T., Khurana, S., Ebeling, P., Schmid, J., Boog, J., (2023): *Machine-learning based spatio-temporal prediction of soil moisture in a grassland hillslope*. Vadose Zone Journal.
+Houben, T., Ebeling, P., Khurana, S.,  Schmid, J., Boog, J., (2025): *Machine-learning based spatio-temporal prediction of soil moisture in a grassland hillslope*. Vadose Zone Journal.
+
+The input data and results of the study are published via Zenodo: [Digital Soil Moisture Mapping - Data accompanying Houben et al. 2025, Vadose Zone Journal](10.5281/zenodo.14871615)
 
 ## Folders in this repository
 
@@ -36,7 +38,7 @@ Contains scripts to run the machine learning models which are presented in the m
     │   ├── I85_20211124_GBRT_seed12000_PE_maps_vis.py
     │   └── I85_20211124_NN_seed12000_TH_maps_vis.py
     ├── ml-project-sm.yml
-    ├── run_scripts
+    ├── run_scripts_air_temp
     │   ├── I41_SVR_test_seed_manuscript.py
     │   ├── I69_20210614_Fit-SpatioTemp-RF_JB.py
     │   ├── I71_20211124_SM_GBRT_basefeat_tune_seeds_eve_PE.py
@@ -44,12 +46,7 @@ Contains scripts to run the machine learning models which are presented in the m
     │   ├── I74_20210630_SM_run_NN_54_1337_TH.py
     │   ├── I74_20210630_SM_run_NN_54_420_TH.py
     │   ├── I74_20210630_SM_run_NN_54_42_TH.py
-    │   ├── I74_20210630_SM_run_NN_54_7_TH.py
-    │   ├── I74_20210630_SM_run_NN_BEST_54_12000_TH.py
-    │   ├── I74_20210630_SM_run_NN_BEST_54_1337_TH.py
-    │   ├── I74_20210630_SM_run_NN_BEST_54_420_TH.py
-    │   ├── I74_20210630_SM_run_NN_BEST_54_42_TH.py
-    │   └── I74_20210630_SM_run_NN_BEST_54_7_TH.py
+    │   └── I74_20210630_SM_run_NN_54_7_TH.py
     └── setup.py
 ```
 
